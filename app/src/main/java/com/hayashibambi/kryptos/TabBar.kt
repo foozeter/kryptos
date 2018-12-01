@@ -31,10 +31,7 @@ class TabBar(context: Context,
 
     val tabCount; get() = tabs.size
 
-    val latestPosition; get() = when (state) {
-        is Idle -> (state as Idle).position
-        else -> (state as Sliding).from
-    }
+    val latestPosition; get() = state.representativePosition
 
     private val tabs = mutableMapOf<Int, TabHolder>()
 
@@ -107,24 +104,35 @@ class TabBar(context: Context,
         addView(tab.view)
     }
 
-    private var weightCollapseTab = 2
-    private var weightScrollTabs = 6
-    private var weightExpandTab = 2
+    private var weightCollapseTab = 2f
+    private var weightScrollTabs = 6f
+    private var weightExpandTab = 2f
     private var sum = weightCollapseTab + weightScrollTabs + weightExpandTab
     fun setTransitionPosition(toPosition: Int, positionOffset: Float) {
         val fromPosition = latestPosition
-        val offset = MathUtils.clamp(positionOffset, 0f, 1f)
-        if (offset <= weightCollapseTab / sum) {
-            Log.d("mylog", "collapsing tab part ($offset)")
-            getTabViewAt(fromPosition).title.alpha = offset * sum / weightCollapseTab
-        } else if (offset <= (weightCollapseTab + weightScrollTabs) / sum) {
-            Log.d("mylog", "scrolling tabs part ($offset)")
-            val t = (offset * sum - weightCollapseTab) / weightScrollTabs
-            setScrollPosition(toPosition, t)
+        if (toPosition != fromPosition) {
+            val offset = MathUtils.clamp(positionOffset, 0f, 1f)
+            if (offset <= weightCollapseTab / sum) {
+                Log.d("mylog", "collapsing tab part ($offset)")
+                getTabViewAt(fromPosition).title.alpha = 1f - offset * sum / weightCollapseTab
+            } else if (offset <= (weightCollapseTab + weightScrollTabs) / sum) {
+                Log.d("mylog", "scrolling tabs part ($offset)")
+                val t = (offset * sum - weightCollapseTab) / weightScrollTabs
+                setScrollPosition(toPosition, t)
+            } else {
+                Log.d("mylog", "expanding tab part ($offset)")
+                getTabViewAt(toPosition).title.alpha =
+                        (offset * sum - (weightCollapseTab + weightScrollTabs)) / weightExpandTab
+            }
+
+            when (offset) {
+                0f -> if (state is Sliding) state = Idle(position = fromPosition)
+                1f -> if (state is Sliding) state = Idle(position = toPosition)
+                else -> if (state is Idle) state = Sliding(from = fromPosition, to = toPosition)
+            }
+
         } else {
-            Log.d("mylog", "expanding tab part ($offset)")
-            getTabViewAt(toPosition).title.alpha =
-                    (offset * sum - (weightCollapseTab + weightScrollTabs)) / weightExpandTab
+            state = Idle(position = toPosition)
         }
     }
 
@@ -150,14 +158,14 @@ class TabBar(context: Context,
                 ViewCompat.offsetLeftAndRight(getTabViewAt(i), -d)
             }
 
-            when (offset) {
-                0f -> if (state is Sliding) state = Idle(position = fromPosition)
-                1f -> if (state is Sliding) state = Idle(position = toPosition)
-                else -> if (state is Idle) state = Sliding(from = fromPosition, to = toPosition)
-            }
+//            when (offset) {
+//                0f -> if (state is Sliding) state = Idle(position = fromPosition)
+//                1f -> if (state is Sliding) state = Idle(position = toPosition)
+//                else -> if (state is Idle) state = Sliding(from = fromPosition, to = toPosition)
+//            }
 
         } else {
-            state = Idle(position = toPosition)
+//            state = Idle(position = toPosition)
         }
     }
 
@@ -254,7 +262,8 @@ class TabBar(context: Context,
             // todo; delete
             icon.setImageResource(R.mipmap.ic_launcher_round)
             title.text = "collections"
-            //
+
+            title.alpha = 0f
 
             orientation = LinearLayout.HORIZONTAL
             isClickable = true
@@ -286,7 +295,8 @@ class TabBar(context: Context,
             }
 
         private fun invalidateTabSelectionState() {
-            view?.title?.visibility = if (isSelected) View.VISIBLE else View.INVISIBLE
+//            view?.title?.visibility = if (isSelected) View.VISIBLE else View.INVISIBLE
+//            view?.title?.alpha = if (isSelected) 1f else 0f
         }
     }
 
@@ -297,9 +307,19 @@ class TabBar(context: Context,
         val icon: Drawable
     }
 
-    private interface State
-    private data class Sliding(val from: Int, val to: Int): State
-    private data class Idle(val position: Int): State
+    private interface State { val representativePosition: Int }
+
+    private data class Settling(val nearest: Int, val beforeScrolling: Boolean): State {
+        override val representativePosition; get() = nearest
+    }
+
+    private data class Sliding(val from: Int, val to: Int): State {
+        override val representativePosition; get() = from
+    }
+
+    private data class Idle(val position: Int): State {
+        override val representativePosition; get() = position
+    }
 
     private fun Float.isEither(a: Float, b: Float) = this == a || this == b
     private fun Float.isBetween(min: Float, max: Float) = min < this && this < max
