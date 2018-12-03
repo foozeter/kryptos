@@ -56,6 +56,8 @@ class StackTabs(context: Context,
             onStateChanged(old, new)
         }
 
+    var autoScroll = true
+
     @StyleRes
     private val tabTitleStyle: Int
 
@@ -105,35 +107,35 @@ class StackTabs(context: Context,
         val tabTextFadeDuration: Long
         val tabsSlideDuration: Long
         val a = context.theme.obtainStyledAttributes(
-            attrs, R.styleable.TabBar, 0, 0)
+            attrs, R.styleable.StackTabs, 0, 0)
 
         try {
             tabTitleStyle = a.getResourceId(
-                R.styleable.TabBar_tabTextStyle,
+                R.styleable.StackTabs_tabTextStyle,
                 R.style.TabTextAppearance)
 
             tabIconStyle = a.getResourceId(
-                R.styleable.TabBar_tabIconStyle,
+                R.styleable.StackTabs_tabIconStyle,
                 R.style.TabIcon)
 
             tabBackground = a.getResourceId(
-                R.styleable.TabBar_tabBackground,
+                R.styleable.StackTabs_tabBackground,
                 android.R.attr.selectableItemBackgroundBorderless)
 
             startOffset = a.getDimensionPixelSize(
-                R.styleable.TabBar_startOffset,
+                R.styleable.StackTabs_startOffset,
                 resources.getDimensionPixelSize(R.dimen.tabbar_default_start_offset))
 
             endOffset = a.getDimensionPixelSize(
-                R.styleable.TabBar_endOffset,
+                R.styleable.StackTabs_endOffset,
                 resources.getDimensionPixelSize(R.dimen.tabbar_default_end_offset))
 
             tabTextFadeDuration = a.getInt(
-                R.styleable.TabBar_tabTextFadeDuration,
+                R.styleable.StackTabs_tabTextFadeDuration,
                 resources.getInteger(R.integer.tabbar_default_text_fade_duration)).toLong()
 
             tabsSlideDuration = a.getInt(
-                R.styleable.TabBar_tabsSlideDuration,
+                R.styleable.StackTabs_tabsSlideDuration,
                 resources.getInteger(R.integer.tabbar_default_slide_duration)).toLong()
 
         } finally {
@@ -150,7 +152,7 @@ class StackTabs(context: Context,
     }
 
     private fun onStateChanged(old: State, new: State) {
-        Log.d("mylog", "state was changed! $old ---> $new")
+//        Log.d("mylog", "state was changed! $old ---> $new")
     }
 
     private fun obtainPreferredTabHeight(attrs: AttributeSet?): Int {
@@ -228,8 +230,9 @@ class StackTabs(context: Context,
 
     private fun onTabViewClicked(tab: InnerTab) {
         Log.d("mylog", "tab_view(${tab.position}) was clicked!")
-        if (selectedPosition != tab.position)
+        if (selectedPosition != tab.position) {
             beginTabsTransition(tab.position)
+        }
     }
 
     private fun beginTabsTransition(destination: Int) {
@@ -237,16 +240,17 @@ class StackTabs(context: Context,
             duration = 500
             addUpdateListener {
                 setTransitionPosition(destination, it.animatedValue as Float)
+
             }
         }.start()
     }
 
     private fun onTabSelected(position: Int) {
-        Log.d("mylog", "tab($position) was selected!")
+//        Log.d("mylog", "tab($position) was selected!")
     }
 
     private fun onTabUnSelected(position: Int) {
-        Log.d("mylog", "tab($position) was unselected...")
+//        Log.d("mylog", "tab($position) was unselected...")
     }
 
     override fun addView(child: View) {
@@ -278,6 +282,12 @@ class StackTabs(context: Context,
     private fun addTabFromItemView(tabItem: TabItem) {
         addTab(Tab(tabItem.text.toString(), tabItem.icon))
         removeView(tabItem)
+    }
+
+    private fun applyAutoScroll(target: Int, progress: Float) {
+        val v = tabs[target].view
+        val d = (v.right - v.title.width / 2) - (scrollX + width / 2)
+        scrollBy((d * progress).toInt(), 0)
     }
 
     private fun makeTabViewsSlidingPosition(origin: Int, destination: Int, progress: Float) {
@@ -361,6 +371,7 @@ class StackTabs(context: Context,
                 makeTabViewsIdlePosition(destination)
                 makeAllTabViewsInActivatedExcept(destination)
                 makeTabViewActivated(destination)
+                if (autoScroll) applyAutoScroll(destination, 1f)
                 setStateAsIdle(destination)
             }
 
@@ -381,6 +392,7 @@ class StackTabs(context: Context,
             tat.act == ThreeActT.Act.TWO -> {
                 makeTabViewsSlidingPosition(origin, destination, tat.topicalT)
                 makeAllTabViewsInactivated()
+                if (autoScroll) applyAutoScroll(destination, tat.topicalT)
                 setStateAsSliding(origin, destination)
             }
 
