@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StackTabs">
+        <attr name="tabTextStyle" format="reference"/>
+        <attr name="tabIconStyle" format="reference"/>
+        <attr name="tabBackground" format="reference"/>
+        <attr name="startOffset" format="dimension"/>
+        <attr name="endOffset" format="dimension"/>
+        <attr name="tabTextFadeDuration" format="integer"/>
+        <attr name="tabsSlideDuration" format="integer"/>
+    </declare-styleable>
+</resources>

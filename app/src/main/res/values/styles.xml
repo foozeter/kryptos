@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TabTextAppearance" parent="AppTheme">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">#00ff00</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TabIcon" parent="AppTheme">
+    </style>
+
+    <style name="Tab" parent="AppTheme">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
 </resources>

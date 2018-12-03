@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tabbar_default_height">56dp</dimen>
+    <dimen name="tabbar_default_start_offset">0dp</dimen>
+    <dimen name="tabbar_default_end_offset">0dp</dimen>
+    <integer name="tabbar_default_text_fade_duration">100</integer>
+    <integer name="tabbar_default_slide_duration">200</integer>
+
+</resources>

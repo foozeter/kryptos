@@ -7,11 +7,51 @@
         android:layout_height="match_parent"
         tools:context=".HomeActivity">
 
-    <com.hayashibambi.kryptos.TabBar
-            android:id="@+id/rollytabs"
+    <com.hayashibambi.kryptos.StackTabs
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="collections"
+                android:icon="@mipmap/ic_launcher"/>
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="little busters"
+                android:icon="@mipmap/ic_launcher"/>
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="split emotion"
+                android:icon="@mipmap/ic_launcher_round"/>
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="non fiction"
+                android:icon="@mipmap/ic_launcher_round"/>
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="third eye"
+                android:icon="@mipmap/ic_launcher_round"/>
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="split emotion"
+                android:icon="@mipmap/ic_launcher_round"/>
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="non fiction"
+                android:icon="@mipmap/ic_launcher_round"/>
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="third eye"
+                android:icon="@mipmap/ic_launcher_round"/>
 
-    </com.hayashibambi.kryptos.TabBar>
+    </com.hayashibambi.kryptos.StackTabs>
 
 </android.support.constraint.ConstraintLayout>
