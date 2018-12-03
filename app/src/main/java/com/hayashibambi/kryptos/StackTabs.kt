@@ -77,11 +77,11 @@ class StackTabs(context: Context,
 
     private val transitionDuration: Long
 
-    private val tabs = mutableListOf<InnerTab>()
+    private val tabs = mutableListOf<Tab>()
 
     private val strip = TabStrip()
 
-    private val mode: Mode = Scrollable()
+    private var mode: Mode = Fixed(0)
 
     private val tat: ThreeActT
 
@@ -104,8 +104,8 @@ class StackTabs(context: Context,
         // Add the TabStrip
         addView(strip, LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
 
-        val tabTextFadeDuration: Long
-        val tabsSlideDuration: Long
+        val tabsSettlingDuration: Long
+        val tabsSlidingDuration: Long
         val a = context.theme.obtainStyledAttributes(
             attrs, R.styleable.StackTabs, 0, 0)
 
@@ -130,11 +130,11 @@ class StackTabs(context: Context,
                 R.styleable.StackTabs_endOffset,
                 resources.getDimensionPixelSize(R.dimen.tabbar_default_end_offset))
 
-            tabTextFadeDuration = a.getInt(
+            tabsSettlingDuration = a.getInt(
                 R.styleable.StackTabs_tabTextFadeDuration,
                 resources.getInteger(R.integer.tabbar_default_text_fade_duration)).toLong()
 
-            tabsSlideDuration = a.getInt(
+            tabsSlidingDuration = a.getInt(
                 R.styleable.StackTabs_tabsSlideDuration,
                 resources.getInteger(R.integer.tabbar_default_slide_duration)).toLong()
 
@@ -142,17 +142,17 @@ class StackTabs(context: Context,
             a.recycle()
         }
 
-        transitionDuration = tabsSlideDuration + tabTextFadeDuration * 2
+        transitionDuration = tabsSlidingDuration + tabsSettlingDuration * 2
         preferredTabHeight = obtainPreferredTabHeight(attrs)
 
         tat = ThreeActT(
-            tabTextFadeDuration.toFloat(),
-            tabsSlideDuration.toFloat(),
-            tabTextFadeDuration.toFloat())
+            tabsSettlingDuration.toFloat(),
+            tabsSlidingDuration.toFloat(),
+            tabsSettlingDuration.toFloat())
     }
 
     private fun onStateChanged(old: State, new: State) {
-//        Log.d("mylog", "state was changed! $old ---> $new")
+        Log.d("mylog", "state was changed! -> $new")
     }
 
     private fun obtainPreferredTabHeight(attrs: AttributeSet?): Int {
@@ -213,22 +213,22 @@ class StackTabs(context: Context,
         setSelectedPosition(0)
     }
 
-    fun addTab(tab: Tab) {
-        val t = newTab(tab)
+    fun addTab(text: String?, icon: Drawable?) {
+        val t = newTab(text, icon)
         tabs.add(t)
         strip.addView(t.view)
     }
 
-    private fun newTab(tab: Tab): InnerTab {
-        val t = InnerTab(tab.title, tab.icon, tabs.size, TabView(), false)
+    private fun newTab(text: String?, icon: Drawable?): Tab {
+        val t = Tab(text, icon, tabs.size, TabView())
         t.view.tag = t
-        t.view.setOnClickListener { onTabViewClicked((it.tag as InnerTab)) }
+        t.view.setOnClickListener { onTabViewClicked((it.tag as Tab)) }
         if (t.icon != null) t.view.icon.setImageDrawable(t.icon)
-        if (t.title != null) t.view.title.text = t.title
+        if (t.title != null) t.view.text.text = t.title
         return t
     }
 
-    private fun onTabViewClicked(tab: InnerTab) {
+    private fun onTabViewClicked(tab: Tab) {
         Log.d("mylog", "tab_view(${tab.position}) was clicked!")
         if (selectedPosition != tab.position) {
             beginTabsTransition(tab.position)
@@ -246,11 +246,19 @@ class StackTabs(context: Context,
     }
 
     private fun onTabSelected(position: Int) {
-//        Log.d("mylog", "tab($position) was selected!")
+        Log.d("mylog", "tab($position) was selected!")
     }
 
-    private fun onTabUnSelected(position: Int) {
-//        Log.d("mylog", "tab($position) was unselected...")
+    private fun onTabUnselected(position: Int) {
+        Log.d("mylog", "tab($position) was unselected...")
+    }
+
+    private fun onTabCompletelySelected(position: Int) {
+        Log.d("mylog", "tab($position) was selected completely!!")
+    }
+
+    private fun onTabCompletelyUnselected(position: Int) {
+        Log.d("mylog", "tab($position) was unselected completely...")
     }
 
     override fun addView(child: View) {
@@ -275,19 +283,21 @@ class StackTabs(context: Context,
             is TabStrip -> super.addView(child, index, params)
             is TabItem -> addTabFromItemView(child)
             else -> throw IllegalArgumentException(
-                "Only TabItem instances can be added to TabLayout")
+                "Only TabItem instances can be added to the StackTabs")
         }
     }
 
     private fun addTabFromItemView(tabItem: TabItem) {
-        addTab(Tab(tabItem.text.toString(), tabItem.icon))
+        addTab(tabItem.text.toString(), tabItem.icon)
         removeView(tabItem)
     }
 
     private fun applyAutoScroll(target: Int, progress: Float) {
-        val v = tabs[target].view
-        val d = (v.right - v.title.width / 2) - (scrollX + width / 2)
-        scrollBy((d * progress).toInt(), 0)
+        if (mode is Scrollable) {
+            val v = tabs[target].view
+            val d = (v.right - v.text.width / 2) - (scrollX + width / 2)
+            scrollBy((d * progress).toInt(), 0)
+        }
     }
 
     private fun makeTabViewsSlidingPosition(origin: Int, destination: Int, progress: Float) {
@@ -310,12 +320,12 @@ class StackTabs(context: Context,
 
                 origin + 1 -> {
                     val f = tabs[origin].view
-                    (f.right - f.title.width * progress).toInt()
+                    (f.right - f.text.width * progress).toInt()
                 }
 
                 destination + 1 -> {
                     val t = tabs[destination].view
-                    (t.left + t.icon.width + t.title.width * progress).toInt()
+                    (t.left + t.icon.width + t.text.width * progress).toInt()
                 }
 
                 else -> {
@@ -333,26 +343,26 @@ class StackTabs(context: Context,
     }
 
     private fun makeTabViewActivatingPosition(position: Int, progress: Float) {
-        tabs[position].view.title.alpha = progress
+        tabs[position].view.text.alpha = progress
     }
 
     private fun makeTabViewInactivatingPosition(position: Int, progress: Float) {
-        tabs[position].view.title.alpha = 1f - progress
+        tabs[position].view.text.alpha = 1f - progress
     }
 
     private fun makeAllTabViewsInactivated() {
-        tabs.forEach { it.view.title.alpha = 0f }
+        tabs.forEach { it.view.text.alpha = 0f }
     }
 
     private fun makeAllTabViewsInActivatedExcept(position: Int) {
         tabs.forEach {
             if (it.position != position)
-                it.view.title.alpha = 0f
+                it.view.text.alpha = 0f
         }
     }
 
     private fun makeTabViewActivated(position: Int) {
-        tabs[position].view.title.alpha = 1f
+        tabs[position].view.text.alpha = 1f
     }
 
     fun setSelectedPosition(position: Int) {
@@ -412,8 +422,8 @@ class StackTabs(context: Context,
 
         if (isNotSamePosition || state !is Idle) {
             state = Idle(position)
-            if (anyTabIsSelected && isNotSamePosition) onTabUnSelected(sp)
-            if (isNotSamePosition) onTabSelected(selectedPosition)
+            if (anyTabIsSelected && isNotSamePosition) onTabCompletelyUnselected(sp)
+            onTabCompletelySelected(selectedPosition)
         }
     }
 
@@ -425,8 +435,13 @@ class StackTabs(context: Context,
         val isNotSamePosition = sp != nearest
 
         if (isNotSamePosition || state !is Settling) {
+            val oldState = state
             state = Settling(origin, destination, nearest)
-            if (anyTabIsSelected && isNotSamePosition) onTabUnSelected(sp)
+            if (anyTabIsSelected) {
+                if (oldState !is Idle || isNotSamePosition) onTabCompletelyUnselected(sp)
+                else onTabUnselected(sp)
+            }
+
             if (isNotSamePosition) onTabSelected(selectedPosition)
         }
     }
@@ -436,7 +451,7 @@ class StackTabs(context: Context,
         if (s !is Sliding || s.origin != origin || s.destination != destination) {
             val sp = selectedPosition
             state = Sliding(origin, destination)
-            if (sp != NOT_SELECTED) onTabUnSelected(sp)
+            if (sp != NOT_SELECTED) onTabCompletelyUnselected(sp)
         }
     }
 
@@ -450,7 +465,7 @@ class StackTabs(context: Context,
                 this@StackTabs.preferredTabHeight)
         }
 
-        val title = TextView(
+        val text = TextView(
             context, null, 0, this@StackTabs.tabTitleStyle).apply {
             layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
@@ -459,23 +474,19 @@ class StackTabs(context: Context,
 
         init {
             addView(icon)
-            addView(title)
+            addView(text)
 //            setBackgroundResource(this@StackTabs.tabBackground)
         }
     }
 
-    private class InnerTab(
+    inner class Tab(
         val title: String?,
         val icon: Drawable?,
         val position: Int,
-        val view: TabView,
-        var isSelected: Boolean) {
-    }
+        val view: TabView) {
 
-    data class Tab(
-        var title: String?,
-        var icon: Drawable?) {
-
+        val isSelected; get() =
+            position == this@StackTabs.selectedPosition
     }
 
     private interface Mode
@@ -496,56 +507,98 @@ class StackTabs(context: Context,
             }
         }
 
-        @SuppressWarnings("SwitchIntDef")
         override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
             if (MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY) {
                 throw IllegalArgumentException(
                     "layout_height of the TabStrip is not specified.")
-            } else if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY) {
-                // HorizontalScrollView will first measure use with UNSPECIFIED, and then with EXACTLY.
-                // Ignore the second call since anything we do will be overwritten anyway
+
+            } else when (this@StackTabs.mode) {
+                is Fixed -> onMeasureInFixedMode(
+                    MeasureSpec.getSize(widthMeasureSpec),
+                    MeasureSpec.getSize(heightMeasureSpec),
+                    MeasureSpec.getMode(widthMeasureSpec),
+                    MeasureSpec.getMode(heightMeasureSpec))
+
+                is Scrollable -> onMeasureInScrollableMode(
+                    MeasureSpec.getSize(widthMeasureSpec),
+                    MeasureSpec.getSize(heightMeasureSpec),
+                    MeasureSpec.getMode(widthMeasureSpec))
+            }
+        }
+
+        private fun onMeasureInFixedMode(widthSize:Int, heightSize: Int, widthMode: Int, heightMode: Int) {
+//            Log.d("mylog", "w=${widthSize}, " +
+//                    "exactly?=${widthMode==MeasureSpec.EXACTLY}, " +
+//                    "atmost?=${widthMode==MeasureSpec.AT_MOST}, " +
+//                    "unspecified?=${widthMode==MeasureSpec.UNSPECIFIED}")
+
+            if (widthMode != MeasureSpec.EXACTLY) {
+//                 HorizontalScrollView will first measure use with UNSPECIFIED, and then with EXACTLY.
+//                 Ignore the first call since anything we do will be overwritten anyway
+                setMeasuredDimension(0, 0)
+                return
+            }
+
+            val tabWidth =
+                if (this@StackTabs.tabCount == 0) 0
+                else widthSize - heightSize * (this@StackTabs.tabCount - 1)
+
+            if (tabWidth <= heightSize) {
+                this@StackTabs.mode = Scrollable()
+                measure(MeasureSpec.makeMeasureSpec(widthSize, widthMode),
+                    MeasureSpec.makeMeasureSpec(heightSize, heightMode))
+                return
+            }
+
+            setMeasuredDimension(widthSize, heightSize)
+
+            this@StackTabs.tabs.forEach {
+                val view = it.view
+                view.icon.layoutParams.width = heightSize
+                view.icon.layoutParams.height = heightSize
+                view.text.layoutParams.width = tabWidth - heightSize
+                view.text.layoutParams.height = heightSize
+                view.measure(
+                    MeasureSpec.makeMeasureSpec(tabWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY)
+                )
+            }
+        }
+
+        @SuppressWarnings("SwitchIntDef")
+        private fun onMeasureInScrollableMode(widthSize:Int, heightSize: Int, widthMode: Int) {
+            if (widthMode == MeasureSpec.EXACTLY) {
+//                 HorizontalScrollView will first measure use with UNSPECIFIED, and then with EXACTLY.
+//                 Ignore the second call since anything we do will be overwritten anyway
                 setMeasuredDimension(measuredWidth, measuredHeight)
                 return
             }
 
-            val height = MeasureSpec.getSize(heightMeasureSpec)
-            val width: Int
+            var largestTabWidth = 0
+            this@StackTabs.tabs.forEach {
+                val view = it.view
+                view.icon.layoutParams.width = heightSize
+                view.icon.layoutParams.height = heightSize
+                view.text.layoutParams.width = LayoutParams.WRAP_CONTENT
+                view.text.layoutParams.height = heightSize
+                view.measure(
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                    MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY)
+                )
 
-            when (this@StackTabs.mode) {
-                is Fixed -> TODO("implement")
+                largestTabWidth = Math.max(largestTabWidth, view.measuredWidth)
+            }
 
-                is Scrollable -> {
+            val idealWidth = this@StackTabs.startOffset + this@StackTabs.endOffset +
+                    largestTabWidth + (this@StackTabs.tabCount - 1) * heightSize
 
-                    var largestTabWidth = 0
-                    tabs.forEach {
-                        val view = it.view
-                        view.icon.layoutParams.width = height
-                        view.icon.layoutParams.height = height
-                        view.title.layoutParams.width = LayoutParams.WRAP_CONTENT
-                        view.title.layoutParams.height = height
-                        view.measure(
-                            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                            MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
-                        )
-
-                        largestTabWidth = Math.max(largestTabWidth, view.measuredWidth)
-                    }
-
-                    val idealWidth = this@StackTabs.startOffset + this@StackTabs.endOffset +
-                                largestTabWidth + (this@StackTabs.tabCount - 1) * height
-
-                    width = when (MeasureSpec.getMode(widthMeasureSpec)) {
-                        MeasureSpec.EXACTLY -> MeasureSpec.getSize(widthMeasureSpec)
-                        MeasureSpec.AT_MOST -> Math.min(MeasureSpec.getSize(widthMeasureSpec), idealWidth)
-                        MeasureSpec.UNSPECIFIED -> idealWidth
-                        else -> throw IllegalArgumentException()
-                    }
-                }
-
+            val width = when (widthMode) {
+                MeasureSpec.AT_MOST -> Math.min(widthSize, idealWidth)
+                MeasureSpec.UNSPECIFIED -> idealWidth
                 else -> throw IllegalArgumentException()
             }
 
-            setMeasuredDimension(width, height)
+            setMeasuredDimension(width, heightSize)
         }
     }
 

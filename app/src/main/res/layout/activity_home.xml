@@ -8,7 +8,7 @@
         tools:context=".HomeActivity">
 
     <com.hayashibambi.kryptos.StackTabs
-            android:layout_marginStart="88dp"
+            android:layout_marginStart="0dp"
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
