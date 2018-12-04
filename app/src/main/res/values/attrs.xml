@@ -8,5 +8,9 @@
         <attr name="endOffset" format="dimension"/>
         <attr name="tabTextFadeDuration" format="integer"/>
         <attr name="tabsSlideDuration" format="integer"/>
+        <attr name="tabIconWidth" format="dimension"/>
+        <attr name="tabTextWidth" format="dimension"/>
+        <attr name="tabTextMinWidth" format="dimension"/>
+        <attr name="tabTextMaxWidth" format="dimension"/>
     </declare-styleable>
 </resources>

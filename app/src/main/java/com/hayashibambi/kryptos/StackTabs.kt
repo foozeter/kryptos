@@ -20,7 +20,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 
-
 class StackTabs(context: Context,
        attrs: AttributeSet?,
        @AttrRes defStyleAttr: Int,
@@ -28,7 +27,20 @@ class StackTabs(context: Context,
     : HorizontalScrollView(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
+
         const val NOT_SELECTED = -1
+
+        const val UNSPECIFIED = -2
+
+        private const val DEFAULT_TAB_HEIGHT = 56 // dip
+
+        private const val DEFAULT_TAB_ICON_WIDTH = DEFAULT_TAB_HEIGHT
+
+        private const val DEFAULT_TAB_TEXT_WIDTH = UNSPECIFIED
+
+        private const val DEFAULT_TAB_TEXT_MIN_WIDTH = UNSPECIFIED
+
+        private const val DEFAULT_TAB_TEXT_MAX_WIDTH = UNSPECIFIED
     }
 
     val tabCount; get() = tabs.size
@@ -68,7 +80,16 @@ class StackTabs(context: Context,
     private val tabBackground: Int
 
     @Px
-    private val preferredTabHeight: Int
+    private val tabIconWidth: Int
+
+    @Px
+    private val tabTextMinWidth: Int
+
+    @Px
+    private val tabTextMaxWidth: Int
+
+    @Px
+    private val tabTextWidth: Int
 
     private val startOffset: Int
 
@@ -138,12 +159,29 @@ class StackTabs(context: Context,
                 R.styleable.StackTabs_tabsSlideDuration,
                 resources.getInteger(R.integer.tabbar_default_slide_duration)).toLong()
 
+            tabIconWidth = a.getDimensionPixelSize(
+                R.styleable.StackTabs_tabIconWidth,
+                dpToPx(DEFAULT_TAB_ICON_WIDTH))
+
+            tabTextWidth = a.getDimensionPixelSize(
+                R.styleable.StackTabs_tabTextWidth,
+                DEFAULT_TAB_TEXT_WIDTH)
+
+            Log.d("mylog", "textwidth=$tabTextWidth")
+
+            tabTextMinWidth = a.getDimensionPixelSize(
+                R.styleable.StackTabs_tabTextMinWidth,
+                DEFAULT_TAB_TEXT_MIN_WIDTH)
+
+            tabTextMaxWidth = a.getDimensionPixelSize(
+                R.styleable.StackTabs_tabTextMaxWidth,
+                DEFAULT_TAB_TEXT_MAX_WIDTH)
+
         } finally {
             a.recycle()
         }
 
         transitionDuration = tabsSlidingDuration + tabsSettlingDuration * 2
-        preferredTabHeight = obtainPreferredTabHeight(attrs)
 
         tat = ThreeActT(
             tabsSettlingDuration.toFloat(),
@@ -155,23 +193,30 @@ class StackTabs(context: Context,
         Log.d("mylog", "state was changed! -> $new")
     }
 
-    private fun obtainPreferredTabHeight(attrs: AttributeSet?): Int {
+    @Px
+    private fun obtainIdealTabHeight(attrs: AttributeSet?): Int  {
+        val h = obtainAttributeInt(attrs, "layout_height", -1)
+        return if (h < 0) dpToPx(DEFAULT_TAB_HEIGHT) else h
+    }
+
+    private fun obtainAttributeValue(attrs: AttributeSet?, name: String): String? {
         if (attrs != null) {
             for (i in 0 until attrs.attributeCount) {
-                if (attrs.getAttributeName(i) == "layout_height")
-                    return attrs.getAttributeIntValue(i, -1)
+                if (attrs.getAttributeName(i) == name)
+                    return attrs.getAttributeValue(i)
             }
         }
-        return resources.getDimensionPixelSize(
-            R.dimen.tabbar_default_height)
+        return null
     }
+
+    private fun obtainAttributeInt(attrs: AttributeSet?, name: String, def: Int)
+            = obtainAttributeValue(attrs, name)?.toInt() ?: def
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
         // If we have a MeasureSpec which allows us to decide our height,
         // try and use the default height
-//        val idealHeight = dpToPx(DEFAULT_HEIGHT)
-        val idealHeight = resources.getDimensionPixelSize(R.dimen.tabbar_default_height)
+        val idealHeight = dpToPx(DEFAULT_TAB_HEIGHT)
 
         when (MeasureSpec.getMode(heightMeasureSpec)) {
 
@@ -455,21 +500,23 @@ class StackTabs(context: Context,
         }
     }
 
+    private fun dpToPx(dp: Int) =
+        (context.resources.displayMetrics.density * dp).toInt()
+
     inner class TabView : LinearLayout(
         this@StackTabs.context, null, 0, R.style.Tab) {
 
+        val idealTabHeight = dpToPx(DEFAULT_TAB_HEIGHT)
         val icon = ImageView(
             context, null, 0, this@StackTabs.tabIconStyle).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                this@StackTabs.preferredTabHeight,
-                this@StackTabs.preferredTabHeight)
+            layoutParams = LinearLayout.LayoutParams(idealTabHeight, idealTabHeight)
         }
 
         val text = TextView(
             context, null, 0, this@StackTabs.tabTitleStyle).apply {
             layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
-                this@StackTabs.preferredTabHeight)
+                idealTabHeight)
         }
 
         init {
@@ -577,14 +624,24 @@ class StackTabs(context: Context,
             var largestTabWidth = 0
             this@StackTabs.tabs.forEach {
                 val view = it.view
-                view.icon.layoutParams.width = heightSize
+                view.icon.layoutParams.width = tabIconWidth
                 view.icon.layoutParams.height = heightSize
-                view.text.layoutParams.width = LayoutParams.WRAP_CONTENT
                 view.text.layoutParams.height = heightSize
-                view.measure(
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                    MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY)
-                )
+                if (tabTextMinWidth != UNSPECIFIED) view.text.minWidth = tabTextMinWidth
+                if (tabTextMaxWidth != UNSPECIFIED) view.text.maxWidth = tabTextMaxWidth
+
+                if (tabTextWidth == UNSPECIFIED) {
+                    Log.d("mylog", "1111")
+                    view.text.layoutParams.width = LayoutParams.WRAP_CONTENT
+                    view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                        MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY))
+
+                } else {
+                    Log.d("mylog", "22222")
+                    view.text.layoutParams.width = tabTextWidth
+                    view.measure(MeasureSpec.makeMeasureSpec(tabIconWidth + tabTextWidth, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY))
+                }
 
                 largestTabWidth = Math.max(largestTabWidth, view.measuredWidth)
             }
