@@ -1,9 +1,9 @@
 package com.hayashibambi.kryptos
 
 import android.graphics.Point
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.transition.TransitionManager
+import androidx.transition.TransitionManager
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout

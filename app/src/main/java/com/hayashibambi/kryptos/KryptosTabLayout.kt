@@ -3,11 +3,11 @@ package com.hayashibambi.kryptos
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.annotation.AttrRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.StyleRes
-import android.support.design.widget.TabItem
-import android.support.transition.TransitionManager
+import androidx.annotation.AttrRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StyleRes
+import com.google.android.material.tabs.TabItem
+import androidx.transition.TransitionManager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
