@@ -5,5 +5,6 @@
     <dimen name="tabbar_default_end_offset">0dp</dimen>
     <integer name="tabbar_default_text_fade_duration">100</integer>
     <integer name="tabbar_default_slide_duration">200</integer>
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>

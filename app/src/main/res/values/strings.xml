@@ -1,3 +1,142 @@
 <resources>
     <string name="app_name">Kryptos</string>
+
+    <string name="large_string">
+        Pellentesque et volutpat quam. Phasellus lectus nibh, tincidunt sed mattis at, facilisis non justo. Nulla
+        dapibus tellus vel turpis varius, at varius est congue. Nulla cursus, lacus vel condimentum ornare, tortor nulla
+        dapibus eros, vel vulputate mi dui a lorem. Nam a turpis nisi. Nam pulvinar faucibus mauris. Vivamus nec magna
+        eu felis commodo eleifend vel id ligula. Etiam velit sem, lacinia ut tellus ut, interdum porttitor risus. Class
+        aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi scelerisque blandit
+        nisi, molestie pellentesque arcu sagittis et. In ultricies, neque ac sagittis feugiat, arcu nibh auctor nisi, et
+        vehicula velit nunc in lacus.
+
+        Donec vitae dui eu libero tristique luctus id nec leo. Sed sit amet mollis eros. Pellentesque eu metus libero.
+        Vestibulum non est nunc. Suspendisse at enim vel quam tincidunt posuere ac in turpis. Ut accumsan magna id felis
+        accumsan, nec vestibulum risus feugiat. Nulla sit amet feugiat metus. In sed dui risus.
+
+        Integer in mi quis enim mattis feugiat auctor non erat. Aliquam lacinia ut ex vitae lacinia. Nullam nulla ipsum,
+        suscipit in dui non, efficitur pulvinar metus. Nullam id enim metus. Suspendisse sed metus sapien. Quisque
+        commodo feugiat tincidunt. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
+        egestas. In ac vestibulum urna, at hendrerit lorem. Fusce ac convallis enim, sed tempor massa. Sed sed feugiat
+        augue. Donec ultrices metus urna, sed scelerisque ex rutrum sed.
+
+        Fusce blandit sapien eu sagittis eleifend. Nam blandit interdum felis, tempor gravida turpis feugiat id. Donec
+        in turpis ac lacus suscipit dictum nec non arcu. Orci varius natoque penatibus et magnis dis parturient montes,
+        nascetur ridiculus mus. Mauris consequat mauris aliquet turpis egestas porttitor eget in turpis. Donec tristique
+        odio ac pretium malesuada. Maecenas eu lorem dapibus, laoreet diam et, blandit mi. Sed gravida elit vitae nunc
+        fermentum, nec venenatis justo tincidunt. Aenean vel blandit sapien, sodales molestie arcu. Nunc nec ipsum ac
+        augue blandit blandit ut sit amet ipsum. Vestibulum elementum iaculis urna non elementum.
+
+        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut odio tellus,
+        bibendum et ultricies dictum, varius eu lorem. In volutpat consectetur iaculis. Sed venenatis sapien a accumsan
+        scelerisque. Suspendisse potenti. Etiam finibus dapibus nunc, a consectetur justo aliquet sed. Curabitur
+        hendrerit libero id sapien faucibus luctus.
+
+        Aenean ac lacus eu metus viverra viverra. Cras lectus elit, egestas quis facilisis in, dictum sed leo. Maecenas
+        massa neque, lacinia vitae mauris posuere, porttitor efficitur sapien. Pellentesque sollicitudin sapien nec
+        aliquet malesuada. Pellentesque sed interdum nisl, at aliquet ligula. Nam tincidunt, arcu ut auctor convallis,
+        nibh lorem imperdiet arcu, sed pretium mauris ipsum quis urna. Nulla et ante lobortis, maximus mi id, imperdiet
+        felis. Nunc gravida, metus at bibendum posuere, elit ante consectetur metus, nec ornare turpis sem ac arcu.
+        Integer sem elit, iaculis sed pharetra sed, volutpat eu ipsum.
+
+        Nullam vel purus consequat, efficitur purus et, condimentum dolor. Pellentesque habitant morbi tristique
+        senectus et netus et malesuada fames ac turpis egestas. Aliquam lacinia ipsum sed orci ornare, non convallis
+        odio cursus. Nam eu dui sit amet dolor dapibus finibus. Nulla aliquam felis lacus, eu dictum leo laoreet in.
+        Cras varius, tortor nec vulputate placerat, quam nisi tempor quam, vel dapibus libero justo eget ante. Praesent
+        ornare ut enim vitae pellentesque. Sed elementum odio dolor, nec blandit elit vestibulum sed. Ut fermentum arcu
+        ut lacus condimentum, non eleifend tellus blandit. Donec tincidunt mauris ut volutpat commodo. Etiam semper non
+        ante non imperdiet. Pellentesque mauris augue, maximus quis tellus nec, consectetur rhoncus odio. Nulla molestie
+        efficitur diam consectetur aliquam. Nullam hendrerit consectetur nisi varius ultricies. Donec non neque
+        convallis, mattis quam semper, consequat augue.
+    </string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open to imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
+        "interact, and exist in space and in relation to each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+
+        "Bold, graphic, intentional.\n\n"
+
+        "The foundational elements of print based design typography, grids, space, scale, color, "
+        "and use of imagery guide visual treatments. These elements do far more than please the "
+        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
+        "imagery, large scale typography, and intentional white space create a bold and graphic "
+        "interface that immerse the user in the experience.\n"
+        "An emphasis on user actions makes core functionality immediately apparent and provides "
+        "waypoints for the user.\n\n"
+
+        "Motion provides meaning.\n\n"
+
+        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
+        "inflection points that initiate motion, transforming the whole design.\n"
+        "All action takes place in a single environment. Objects are presented to the user without "
+        "breaking the continuity of experience even as they transform and reorganize.\n"
+        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
+        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
+
+        "3D world.\n\n"
+
+        "The material environment is a 3D space, which means all objects have x, y, and z "
+        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
+        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
+        "position along the z-axis and has a standard 1dp thickness.\n"
+        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
+        "emulated by manipulating the y-axis.\n\n"
+
+        "Light and shadow.\n\n"
+
+        "Within the material environment, virtual lights illuminate the scene. Key lights create "
+        "directional shadows, while ambient light creates soft shadows from all angles.\n"
+        "Shadows in the material environment are cast by these two light sources. In Android "
+        "development, shadows occur when light sources are blocked by sheets of material at "
+        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
+        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
+
+        "Resting elevation.\n\n"
+
+        "All material objects, regardless of size, have a resting elevation, or default elevation "
+        "that does not change. If an object changes elevation, it should return to its resting "
+        "elevation as soon as possible.\n\n"
+
+        "Component elevations.\n\n"
+
+        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
+        "does not vary from 6dp in one app to 16dp in another app).\n"
+        "Components may have different resting elevations across platforms, depending on the depth "
+        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
+
+        "Responsive elevation and dynamic elevation offsets.\n\n"
+
+        "Some component types have responsive elevation, meaning they change elevation in response "
+        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
+        "changes are consistently implemented using dynamic elevation offsets.\n"
+        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
+        "to the component’s resting state. They ensure that elevation changes are consistent "
+        "across actions and component types. For example, all components that lift on press have "
+        "the same elevation change relative to their resting elevation.\n"
+        "Once the input event is completed or cancelled, the component will return to its resting "
+        "elevation.\n\n"
+
+        "Avoiding elevation interference.\n\n"
+
+        "Components with responsive elevations may encounter other components as they move between "
+        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
+        "through other material, components avoid interfering with one another any number of ways, "
+        "whether on a per component basis or using the entire app layout.\n"
+        "On a component level, components can move or be removed before they cause interference. "
+        "For example, a floating action button (FAB) can disappear or move off screen before a "
+        "user picks up a card, or it can move if a snackbar appears.\n"
+        "On the layout level, design your app layout to minimize opportunities for interference. "
+        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
+        "when a user tries to pick up one of cards.\n\n"
+    </string>
 </resources>

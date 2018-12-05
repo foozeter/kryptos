@@ -15,6 +15,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -282,7 +283,8 @@ class StackTabs(context: Context,
 
     private fun beginTabsTransition(destination: Int) {
         ObjectAnimator.ofFloat(0f, 1f).apply {
-            duration = 500
+            duration = 2000
+            interpolator = AccelerateDecelerateInterpolator()
             addUpdateListener {
                 setTransitionPosition(destination, it.animatedValue as Float)
 

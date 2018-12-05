@@ -13,4 +13,7 @@
         <attr name="tabTextMinWidth" format="dimension"/>
         <attr name="tabTextMaxWidth" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="KryptosTabLayout">
+    </declare-styleable>
 </resources>
