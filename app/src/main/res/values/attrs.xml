@@ -16,4 +16,12 @@
 
     <declare-styleable name="KryptosTabLayout">
     </declare-styleable>
+
+    <declare-styleable name="SlashLayout">
+        <attr name="slash_heightDiff" format="dimension"/>
+        <attr name="slash_cornerRadius" format="dimension"/>
+        <attr name="slash_shadowSize" format="dimension"/>
+        <attr name="slash_shadowDepth" format="float"/>
+        <attr name="slash_backgroundColor" format="color"/>
+    </declare-styleable>
 </resources>
