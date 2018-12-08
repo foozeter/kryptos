@@ -3,7 +3,6 @@ package com.hayashibambi.kryptos
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
@@ -70,6 +69,8 @@ class SlashLayout(
 
     private var topEdgeShadowShader: LinearGradient? = null
 
+    private var onTouchEventOutOfBoundsListener: OnTouchEventOutOfBoundsListener? = null
+
     constructor(
         context: Context,
         attrs: AttributeSet?,
@@ -112,8 +113,17 @@ class SlashLayout(
         setWillNotDraw(false)
     }
 
+    fun setOnTouchEventOutOfBoundsListener(listener: OnTouchEventOutOfBoundsListener) {
+        onTouchEventOutOfBoundsListener = listener
+    }
+
+    fun setOnTouchEventOutOfBoundsListener(listener: (pointer: Int, ev: MotionEvent) -> Boolean) {
+        onTouchEventOutOfBoundsListener = object: OnTouchEventOutOfBoundsListener {
+            override fun onTouchEventOutOfBounds(pointer: Int, ev: MotionEvent) = listener(pointer, ev)
+        }
+    }
+
     override fun onDraw(canvas: Canvas) {
-        Log.d("mylog", "ondraw")
         // draw shadows
         if (0 < shadowSize) {
             shadowPaint.shader = leftTopCornerShadowShader
@@ -214,18 +224,29 @@ class SlashLayout(
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        return if (shouldIgnoreTouchEvent(ev.x, ev.y)) {
-            onTouchEventIgnored(ev)
-            true
-        } else super.onInterceptTouchEvent(ev)
+        var ret = false
+        for (i in 0 until ev.pointerCount) {
+            val pointer = ev.getPointerId(i)
+            val x = ev.getX(pointer)
+            val y = ev.getY(pointer)
+            if (isTouchEventOutOfBounds(x, y)) {
+                ret = ret.or(onTouchEventOutOfBoundsListener?.onTouchEventOutOfBounds(pointer, ev) ?: false)
+            }
+        }
+
+        return ret
     }
 
-    private fun onTouchEventIgnored(ev: MotionEvent) {
-        Log.d("mylog", "touch was ignored...")
-    }
-
-    private fun shouldIgnoreTouchEvent(x: Float, y: Float) = x*heightDiff/width > y
+    private fun isTouchEventOutOfBounds(x: Float, y: Float) = x*heightDiff/width > y
 
     private fun dpToPx(dp: Int)
             = (context.resources.displayMetrics.density * dp).toInt()
+
+    interface OnTouchEventOutOfBoundsListener {
+
+        /**
+         * @return TRUE if you want to intercept the touch event, FALSE otherwise.
+         */
+        fun onTouchEventOutOfBounds(pointer: Int, ev: MotionEvent): Boolean
+    }
 }

@@ -77,9 +77,10 @@ android:clipChildren="false">
     <!--</com.google.android.material.appbar.AppBarLayout>-->
 
     <com.hayashibambi.kryptos.SlashLayout
+            android:id="@+id/slash_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-    app:backgroundColor="@color/colorAccent"
+    app:slash_backgroundColor="@color/colorAccent"
     app:layout_behavior="@string/bottom_sheet_behavior"
             app:behavior_hideable="false"
             app:behavior_peekHeight="180dp">
