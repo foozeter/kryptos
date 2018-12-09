@@ -16,10 +16,5 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
-        slash_layout.setOnTouchEventOutOfBoundsListener { pointer, ev ->
-            Log.d("mylog", "touch was ignored...")
-            return@setOnTouchEventOutOfBoundsListener true
-        }
     }
 }

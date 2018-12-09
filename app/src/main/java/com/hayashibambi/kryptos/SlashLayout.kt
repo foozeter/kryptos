@@ -23,6 +23,7 @@ class SlashLayout(
         private const val DEFAULT_HEIGHT_DIFF = 64 // dip
         private const val DEFAULT_CORNER_RADIUS = 16 // dip
         private const val DEFAULT_BACKGROUND_COLOR = Color.WHITE
+        private const val DEFAULT_EAT_TOUCH_EVENT = false
     }
 
     @Px
@@ -44,6 +45,8 @@ class SlashLayout(
     private val shadowEndColor = Color.TRANSPARENT
 
     private val shadowStartColor; get() = Color.argb((shadowDepth*255).toInt(), 0, 0, 0)
+
+    private val eatTouchEvent: Boolean
 
     private val shape = Path()
 
@@ -68,8 +71,6 @@ class SlashLayout(
     private var rightTopCornerShadowShader: RadialGradient? = null
 
     private var topEdgeShadowShader: LinearGradient? = null
-
-    private var onTouchEventOutOfBoundsListener: OnTouchEventOutOfBoundsListener? = null
 
     constructor(
         context: Context,
@@ -104,6 +105,10 @@ class SlashLayout(
             R.styleable.SlashLayout_slash_backgroundColor,
             DEFAULT_BACKGROUND_COLOR)
 
+        eatTouchEvent = a.getBoolean(
+            R.styleable.SlashLayout_slash_eatTouchEvent,
+            DEFAULT_EAT_TOUCH_EVENT)
+
         a.recycle()
         initialize()
     }
@@ -111,16 +116,6 @@ class SlashLayout(
     private fun initialize() {
         shapePaint.color = backgroundColor
         setWillNotDraw(false)
-    }
-
-    fun setOnTouchEventOutOfBoundsListener(listener: OnTouchEventOutOfBoundsListener?) {
-        onTouchEventOutOfBoundsListener = listener
-    }
-
-    fun setOnTouchEventOutOfBoundsListener(listener: (pointer: Int, ev: MotionEvent) -> Boolean) {
-        onTouchEventOutOfBoundsListener = object: OnTouchEventOutOfBoundsListener {
-            override fun onTouchEventOutOfBounds(pointer: Int, ev: MotionEvent) = listener(pointer, ev)
-        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -136,8 +131,11 @@ class SlashLayout(
 
         // draw shape
         canvas.drawPath(shape, shapePaint)
-        // clip child views
-        canvas.clipPath(shape)
+
+        if (clipChildren) {
+            // clip child views
+            canvas.clipPath(shape)
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -225,47 +223,18 @@ class SlashLayout(
             colors, points, Shader.TileMode.CLAMP)
     }
 
-    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        var ret = false
-        for (i in 0 until ev.pointerCount) {
-            val pointer = ev.getPointerId(i)
-            val x = ev.getX(pointer)
-            val y = ev.getY(pointer)
-            if (isPointOutOfBounds(x, y)) {
-                ret = ret.or(onTouchEventOutOfBoundsListener?.onTouchEventOutOfBounds(pointer, ev) ?: false)
-            }
-        }
-
-        return ret
-//        return false
+    override fun onTouchEvent(event: MotionEvent) = when {
+        isPointOutOfBounds(event.x, event.y) -> false
+        eatTouchEvent -> true
+        else -> super.onTouchEvent(event)
     }
 
-    override fun onTouchEvent(ev: MotionEvent): Boolean {
-        var ret = false
-        for (i in 0 until ev.pointerCount) {
-            val pointer = ev.getPointerId(i)
-            val x = ev.getX(pointer)
-            val y = ev.getY(pointer)
-            if (isPointOutOfBounds(x, y)) {
-                ret = ret.or(onTouchEventOutOfBoundsListener?.onTouchEventOutOfBounds(pointer, ev)?.not() ?: false)
-            }
-        }
+    override fun onInterceptTouchEvent(ev: MotionEvent) =
+        if (isPointOutOfBounds(ev.x, ev.y)) true
+        else super.onInterceptTouchEvent(ev)
 
-        return ret
-    }
-
-    fun isPointOutOfBounds(x: Float, y: Float) = x*heightDiff/width > y
-
-    fun isAbsPointOutOfBounds(x: Float, y: Float) = isPointOutOfBounds(x-left, y-top)
+    private fun isPointOutOfBounds(x: Float, y: Float) = x*heightDiff/width > y
 
     private fun dpToPx(dp: Int)
             = (context.resources.displayMetrics.density * dp).toInt()
-
-    interface OnTouchEventOutOfBoundsListener {
-
-        /**
-         * @return TRUE if you want to ignore the touch event, FALSE otherwise.
-         */
-        fun onTouchEventOutOfBounds(pointer: Int, ev: MotionEvent): Boolean
-    }
 }

@@ -81,9 +81,10 @@ android:clipChildren="false">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
     app:slash_backgroundColor="@color/colorAccent"
-    app:layout_behavior="com.hayashibambi.kryptos.BottomSheetBehaviorWithSlashLayout"
             app:behavior_hideable="false"
-            app:behavior_peekHeight="180dp">
+            app:behavior_peekHeight="300dp"
+    app:slash_heightDiff="200dp"
+    app:slash_eatTouchEvent="true">
 
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:text="un-clickable"

@@ -23,5 +23,6 @@
         <attr name="slash_shadowSize" format="dimension"/>
         <attr name="slash_shadowDepth" format="float"/>
         <attr name="slash_backgroundColor" format="color"/>
+        <attr name="slash_eatTouchEvent" format="boolean"/>
     </declare-styleable>
 </resources>
