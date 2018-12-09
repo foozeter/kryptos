@@ -53,6 +53,8 @@ class SlashLayout(
 
     private val topEdgeShadow = Path()
 
+    private val clipping = Path()
+
     private val shapePaint = Paint().apply {
         style = Paint.Style.FILL
         isAntiAlias = true
@@ -113,7 +115,7 @@ class SlashLayout(
         setWillNotDraw(false)
     }
 
-    fun setOnTouchEventOutOfBoundsListener(listener: OnTouchEventOutOfBoundsListener) {
+    fun setOnTouchEventOutOfBoundsListener(listener: OnTouchEventOutOfBoundsListener?) {
         onTouchEventOutOfBoundsListener = listener
     }
 
@@ -136,6 +138,8 @@ class SlashLayout(
 
         // draw shape
         canvas.drawPath(shape, shapePaint)
+        // clip child views
+        canvas.clipPath(clipping)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -170,6 +174,23 @@ class SlashLayout(
             lineTo(p1-r, h)
             lineTo(p1-r, q1)
             close()
+        }
+
+        // clipping path (shape bounds + shadow bounds)
+        if (shadowSize == 0) {
+            clipping.set(shape)
+        } else {
+            clipping.apply {
+                reset()
+                moveTo(p1-r-s, q1)
+                arcTo(p1-r-s, q1-r-s, p1+r+s, q1+r+s, 180f, 180f-zdeg, true)
+                lineTo(u + s/k * d, v - s/k * w)
+                arcTo(p2-r-s, q2-r-s, p2+r+s, q2+r+s, -zdeg, zdeg, true)
+                lineTo(p2+r+s, h+s)
+                lineTo(p1-r-s, h+s)
+                lineTo(p1-r-s, q1)
+                close()
+            }
         }
 
         if (shadowSize == 0) return
@@ -229,15 +250,32 @@ class SlashLayout(
             val pointer = ev.getPointerId(i)
             val x = ev.getX(pointer)
             val y = ev.getY(pointer)
-            if (isTouchEventOutOfBounds(x, y)) {
+            if (isPointOutOfBounds(x, y)) {
                 ret = ret.or(onTouchEventOutOfBoundsListener?.onTouchEventOutOfBounds(pointer, ev) ?: false)
+            }
+        }
+
+        return ret
+//        return false
+    }
+
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        var ret = false
+        for (i in 0 until ev.pointerCount) {
+            val pointer = ev.getPointerId(i)
+            val x = ev.getX(pointer)
+            val y = ev.getY(pointer)
+            if (isPointOutOfBounds(x, y)) {
+                ret = ret.or(onTouchEventOutOfBoundsListener?.onTouchEventOutOfBounds(pointer, ev)?.not() ?: false)
             }
         }
 
         return ret
     }
 
-    private fun isTouchEventOutOfBounds(x: Float, y: Float) = x*heightDiff/width > y
+    fun isPointOutOfBounds(x: Float, y: Float) = x*heightDiff/width > y
+
+    fun isAbsPointOutOfBounds(x: Float, y: Float) = isPointOutOfBounds(x-left, y-top)
 
     private fun dpToPx(dp: Int)
             = (context.resources.displayMetrics.density * dp).toInt()
@@ -245,7 +283,7 @@ class SlashLayout(
     interface OnTouchEventOutOfBoundsListener {
 
         /**
-         * @return TRUE if you want to intercept the touch event, FALSE otherwise.
+         * @return TRUE if you want to ignore the touch event, FALSE otherwise.
          */
         fun onTouchEventOutOfBounds(pointer: Int, ev: MotionEvent): Boolean
     }
