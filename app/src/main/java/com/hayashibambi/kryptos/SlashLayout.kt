@@ -46,6 +46,9 @@ class SlashLayout(
 
     private val shadowStartColor; get() = Color.argb((shadowDepth*255).toInt(), 0, 0, 0)
 
+    /**
+     * This is useful when use this view as a bottom sheet.
+     */
     private val eatTouchEvent: Boolean
 
     private val shape = Path()
@@ -233,7 +236,14 @@ class SlashLayout(
         if (isPointOutOfBounds(ev.x, ev.y)) true
         else super.onInterceptTouchEvent(ev)
 
-    private fun isPointOutOfBounds(x: Float, y: Float) = x*heightDiff/width > y
+    internal fun isPointOutOfBounds(x: Int, y: Int)
+            = isPointOutOfBounds(x.toFloat(), y.toFloat())
+
+    /**
+     * (x,y) is a local coordinate.
+     */
+    internal fun isPointOutOfBounds(x: Float, y: Float)
+            = !(0..width).contains(x) || y > height || x*heightDiff/width > y
 
     private fun dpToPx(dp: Int)
             = (context.resources.displayMetrics.density * dp).toInt()

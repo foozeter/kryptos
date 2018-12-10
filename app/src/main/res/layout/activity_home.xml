@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<com.hayashibambi.kryptos.SlashCoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -81,6 +81,7 @@ android:clipChildren="false">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
     app:slash_backgroundColor="@color/colorAccent"
+            app:layout_behavior="@string/bottom_sheet_behavior"
             app:behavior_hideable="false"
             app:behavior_peekHeight="300dp"
     app:slash_heightDiff="200dp"
@@ -93,4 +94,4 @@ android:clipChildren="false">
                 android:text="clickable"
                 android:layout_gravity="center"/>
     </com.hayashibambi.kryptos.SlashLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.hayashibambi.kryptos.SlashCoordinatorLayout>
