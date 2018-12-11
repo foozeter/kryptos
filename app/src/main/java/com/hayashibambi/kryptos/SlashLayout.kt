@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
@@ -123,26 +124,33 @@ open class SlashLayout(
         initialize()
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (autoTopPadding) insertAutoTopPadding()
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+        if(changed && autoTopPadding) insertAutoTopPadding()
     }
 
     /**
      * Automatically inserts the top padding so that whole contents will be visible.
      */
     private fun insertAutoTopPadding() {
-        if (0 < childCount && 0 < measuredWidth) {
-            val topChild = getChildAt(0)
-            val lp = topChild.layoutParams as LinearLayout.LayoutParams
-            val childRight = paddingStart + lp.marginStart + topChild.measuredWidth
-            val padding = (heightDiff.toFloat() / measuredWidth * childRight).toInt()
-            setPadding(paddingStart, padding, paddingEnd, paddingBottom)
+        if (0 < width) {
+            val slp = heightDiff/width.toFloat()
+            var base: View? = null
+            for (i in 0 until childCount) {
+                if (base != null && base.top > heightDiff) break
+                val c = getChildAt(i)
+                if (c.top < slp*c.right && (base == null || base.right < c.right)) base = c
+            }
+
+            val padding = if(base != null) (slp*base.right - base.top).toInt() else 0
+            if (paddingTop < padding) setPadding(paddingStart, padding, paddingEnd, paddingBottom)
         }
     }
 
     private fun initialize() {
         shapePaint.color = backgroundColor
+        // This class only supports the vertical orientation.
+        orientation = LinearLayout.VERTICAL
         setWillNotDraw(false)
     }
 
