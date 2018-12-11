@@ -7,5 +7,11 @@
         <attr name="slash_shadowDepth" format="float"/>
         <attr name="slash_backgroundColor" format="color"/>
         <attr name="slash_eatTouchEvent" format="boolean"/>
+        <attr name="slash_autoTopPadding" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShrinkFrameLayout">
+        <attr name="shrink_amountOfHeight" format="dimension"/>
+        <attr name="shrink_amountOfWidth" format="dimension"/>
     </declare-styleable>
 </resources>
