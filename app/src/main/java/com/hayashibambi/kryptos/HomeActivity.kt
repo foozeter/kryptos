@@ -1,15 +1,7 @@
 package com.hayashibambi.kryptos
 
-import android.graphics.Point
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.transition.TransitionManager
-import android.util.Log
-import android.view.View
-import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.home_custom_tab.*
-import kotlinx.android.synthetic.main.home_custom_tab.view.*
+import androidx.appcompat.app.AppCompatActivity
 
 class HomeActivity : AppCompatActivity() {
 
