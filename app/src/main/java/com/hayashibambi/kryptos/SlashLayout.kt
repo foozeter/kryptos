@@ -4,18 +4,18 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 import androidx.annotation.Px
 import androidx.core.math.MathUtils
 
-class SlashLayout(
+open class SlashLayout(
     context: Context,
     attrs: AttributeSet?,
     defStyleAttr: Int,
     defStyleRes: Int)
-    : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+    : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
         private const val DEFAULT_SHADOW_DEPTH = 0.15f
@@ -24,7 +24,10 @@ class SlashLayout(
         private const val DEFAULT_CORNER_RADIUS = 16 // dip
         private const val DEFAULT_BACKGROUND_COLOR = Color.WHITE
         private const val DEFAULT_EAT_TOUCH_EVENT = false
+        private const val DEFAULT_AUTO_TOP_PADDING = false
     }
+
+    private val autoTopPadding: Boolean
 
     @Px
     private val heightDiff: Int
@@ -112,8 +115,30 @@ class SlashLayout(
             R.styleable.SlashLayout_slash_eatTouchEvent,
             DEFAULT_EAT_TOUCH_EVENT)
 
+        autoTopPadding = a.getBoolean(
+            R.styleable.SlashLayout_slash_autoTopPadding,
+            DEFAULT_AUTO_TOP_PADDING)
+
         a.recycle()
         initialize()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        if (autoTopPadding) insertAutoTopPadding()
+    }
+
+    /**
+     * Automatically inserts the top padding so that whole contents will be visible.
+     */
+    private fun insertAutoTopPadding() {
+        if (0 < childCount && 0 < measuredWidth) {
+            val topChild = getChildAt(0)
+            val lp = topChild.layoutParams as LinearLayout.LayoutParams
+            val childRight = paddingStart + lp.marginStart + topChild.measuredWidth
+            val padding = (heightDiff.toFloat() / measuredWidth * childRight).toInt()
+            setPadding(paddingStart, padding, paddingEnd, paddingBottom)
+        }
     }
 
     private fun initialize() {
