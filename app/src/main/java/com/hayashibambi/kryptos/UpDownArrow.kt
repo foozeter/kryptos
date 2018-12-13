@@ -34,6 +34,10 @@ class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
             R.styleable.UpDownArrow_upa_arrowColor,
             arrow.arrowColor)
 
+        arrow.arrowCurvature = a.getFloat(
+            R.styleable.UpDownArrow_upa_arrowCurvature,
+            arrow.arrowCurvature)
+
         arrow.breakStart = a.getFloat(
             R.styleable.UpDownArrow_upa_breakStart,
             arrow.breakStart.toFloat()).toDouble()
@@ -53,6 +57,10 @@ class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
         arrow.skipBreakTime = a.getBoolean(
             R.styleable.UpDownArrow_upa_skipBreakTime,
             arrow.skipBreakTime)
+
+        arrow.richDrawing = a.getBoolean(
+            R.styleable.UpDownArrow_upa_richDrawing,
+            arrow.richDrawing)
 
         fitToViewSize = a.getBoolean(
             R.styleable.UpDownArrow_upa_fitToViewSize,

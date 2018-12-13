@@ -20,11 +20,13 @@
         <attr name="upa_arrowHeight" format="dimension"/>
         <attr name="upa_arrowThickness" format="dimension"/>
         <attr name="upa_arrowColor" format="color"/>
+        <attr name="upa_arrowCurvature" format="float"/>
         <attr name="upa_breakStart" format="float"/>
         <attr name="upa_breakEnd" format="float"/>
         <attr name="upa_progress" format="float"/>
         <attr name="upa_isUpToDown" format="boolean"/>
         <attr name="upa_fitToViewSize" format="boolean"/>
         <attr name="upa_skipBreakTime" format="boolean"/>
+        <attr name="upa_richDrawing" format="boolean"/>
     </declare-styleable>
 </resources>

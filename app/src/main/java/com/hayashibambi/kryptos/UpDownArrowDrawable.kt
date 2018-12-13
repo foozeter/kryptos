@@ -18,6 +18,8 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         private const val DEFAULT_PROGRESS = 0f
         private const val DEFAULT_IS_UP_TO_DOWN = true
         private const val DEFAULT_SKIP_BREAK_TIME = false
+        private const val DEFAULT_RICH_DRAWING = true
+        private const val DEFAULT_ARROW_CURVATURE = 0.7f
     }
 
     private val fraction = Fraction()
@@ -27,6 +29,31 @@ class UpDownArrowDrawable(context: Context): Drawable() {
     private val left = PointF()
     private val right = PointF()
     private val center = PointF()
+    private val bezierStart = PointF()
+    private val bezierEnd = PointF()
+
+    /**
+     * If this is TRUE, the arrow shape will be drawn
+     * using the bezier curve.
+     */
+    var richDrawing = DEFAULT_RICH_DRAWING
+        set(value) {
+            if (field != value) {
+                field = value
+                invalidateSelf()
+            }
+        }
+
+
+    @FloatRange(from = 0.0, to = 1.0)
+    var arrowCurvature = DEFAULT_ARROW_CURVATURE
+        set(value) {
+            val v = MathUtils.clamp(value, 0f, 1f)
+            if (field != v) {
+                field = v
+                invalidateSelf()
+            }
+        }
 
     var progress = DEFAULT_PROGRESS
         set(value) {
@@ -124,7 +151,14 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         calculatePosition()
         path.reset()
         path.moveTo(left)
-        path.lineTo(center)
+
+        if (richDrawing) {
+            path.lineTo(bezierStart)
+            path.quadTo(center, bezierEnd)
+        } else {
+            path.lineTo(center)
+        }
+
         path.lineTo(right)
         canvas.drawPath(path, paint)
     }
@@ -139,6 +173,13 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         center.y = centerY - h
         right.x = drawArea.right.toFloat()
         right.y = left.y
+
+        if (richDrawing) {
+            bezierStart.x = left.x + (center.x - left.x) * arrowCurvature
+            bezierStart.y = left.y + (center.y - left.y) * arrowCurvature
+            bezierEnd.x = right.x + (center.x - right.x) * arrowCurvature
+            bezierEnd.y = right.y + (center.y - right.y) * arrowCurvature
+        }
     }
 
     override fun getDirtyBounds() = drawArea
@@ -176,6 +217,7 @@ class UpDownArrowDrawable(context: Context): Drawable() {
 
     private fun Path.moveTo(point: PointF) = this.moveTo(point.x, point.y)
     private fun Path.lineTo(point: PointF) = this.lineTo(point.x, point.y)
+    private fun Path.quadTo(control: PointF, end: PointF) = this.quadTo(control.x, control.y, end.x, end.y)
 
     private fun dpToPx(dp: Int, context: Context)
             = (context.resources.displayMetrics.density * dp).toInt()
