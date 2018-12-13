@@ -6,41 +6,71 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".HomeActivity"
-android:orientation="vertical"
-android:clipChildren="false">
+        android:orientation="vertical"
+        android:clipChildren="false"
+        android:id="@+id/root_layout"
+        android:background="@color/colorPrimary">
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:orientation="horizontal">
+            <ImageView android:layout_width="56dp"
+                       android:layout_height="56dp"
+                       android:src="@drawable/ic_donuts"
+                       android:padding="16dp"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:text="collections"
+                      android:gravity="center_vertical"
+                      android:textSize="20sp"
+                      android:textColor="#ffffff"
+                      android:layout_marginStart="16dp"/>
+
+        </LinearLayout>
+
+        <include
+                android:id="@+id/menu"
+                layout="@layout/menu_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <com.hayashibambi.kryptos.ShrinkFrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:text="@string/large_text"
-                android:textColor="#000000"
-                android:textSize="14sp"/>
-
-    </androidx.core.widget.NestedScrollView>
-
+            app:behavior_hideable="false"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            app:shrink_amountOfHeight="@dimen/home_title_bar_height"
+            android:background="@drawable/home_content_background"/>
 
     <com.hayashibambi.kryptos.SlashLayout
-            android:id="@+id/slash_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-    app:slash_backgroundColor="@color/colorAccent"
-            app:layout_behavior="@string/bottom_sheet_behavior"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="300dp"
-    app:slash_heightDiff="200dp"
-    app:slash_eatTouchEvent="true">
+    app:slash_heightDiff="100dp"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    app:behavior_peekHeight="100dp"
+    app:slash_autoTopPadding="true">
 
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="un-clickable"
-        android:layout_gravity="end"/>
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="clickable"
-                android:layout_gravity="center"/>
+        <View android:layout_width="80dp" android:layout_height="20dp"
+        android:background="@color/colorPrimary"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:background="#ff0000"
+        android:padding="8dp"
+        android:text="action long name"
+        android:textAllCaps="true"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:drawableStart="@drawable/ic_donuts"
+        android:drawableTint="@color/colorPrimary"
+        android:drawablePadding="12dp"/>
+
     </com.hayashibambi.kryptos.SlashLayout>
+
 </com.hayashibambi.kryptos.SlashCoordinatorLayout>
