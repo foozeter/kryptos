@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/root_layout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <com.hayashibambi.kryptos.UpDownArrow
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:id="@+id/test_view"
+            android:layout_gravity="center"
+    android:background="@color/colorAccent"/>
+</FrameLayout>

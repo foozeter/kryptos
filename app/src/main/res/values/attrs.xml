@@ -15,4 +15,15 @@
         <attr name="shrink_amountOfWidth" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="UpDownArrow">
+        <attr name="upa_arrowWidth" format="dimension"/>
+        <attr name="upa_arrowHeight" format="dimension"/>
+        <attr name="upa_arrowThickness" format="dimension"/>
+        <attr name="upa_breakStart" format="float"/>
+        <attr name="upa_breakEnd" format="float"/>
+        <attr name="upa_progress" format="float"/>
+        <attr name="upa_isUpToDown" format="boolean"/>
+        <attr name="upa_fitToViewSize" format="boolean"/>
+        <attr name="upa_skipBreakTime" format="boolean"/>
+    </declare-styleable>
 </resources>
