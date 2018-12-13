@@ -41,6 +41,7 @@ class UpDownArrowDrawable(context: Context): Drawable() {
             if (field != value) {
                 field = value
                 invalidateDrawArea(bounds)
+                invalidateSelf()
             }
         }
 
@@ -49,6 +50,7 @@ class UpDownArrowDrawable(context: Context): Drawable() {
             if (field != value) {
                 field = value
                 invalidateDrawArea(bounds)
+                invalidateSelf()
             }
         }
 
@@ -65,6 +67,7 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         set(value) {
             if (paint.strokeWidth != value) {
                 paint.strokeWidth = value
+                invalidateDrawArea(bounds)
                 invalidateSelf()
             }
         }
@@ -147,19 +150,26 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         paint.alpha = alpha
     }
 
-    override fun getOpacity(): Int {
-        return PixelFormat.OPAQUE
+    override fun getAlpha() = paint.alpha
+
+    override fun getOpacity() = when {
+        alpha <= 0f -> PixelFormat.TRANSPARENT
+        0f < alpha && alpha < 1f -> PixelFormat.TRANSLUCENT
+        else -> PixelFormat.OPAQUE
     }
 
     override fun setColorFilter(colorFilter: ColorFilter) {
         paint.colorFilter = colorFilter
     }
 
+    override fun getColorFilter() = paint.colorFilter
+
     private fun invalidateDrawArea(bounds: Rect) {
         drawArea.set(bounds)
+        val g = arrowThickness / 2
         val verticalPadding = (drawArea.height() - arrowHeight) / 2
         val horizontalPadding = (drawArea.width() - arrowWidth) / 2
-        drawArea.inset(horizontalPadding, verticalPadding)
+        drawArea.inset(horizontalPadding + g, verticalPadding + g)
     }
 
     private fun Path.moveTo(point: PointF) = this.moveTo(point.x, point.y)
