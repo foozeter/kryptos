@@ -118,8 +118,6 @@ class UpDownArrowDrawable(context: Context): Drawable() {
     }
 
     override fun draw(canvas: Canvas) {
-        canvas.drawColor(Color.GREEN)
-
         calculatePosition()
         path.reset()
         path.moveTo(left)
