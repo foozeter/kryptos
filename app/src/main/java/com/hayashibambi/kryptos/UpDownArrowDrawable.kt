@@ -17,6 +17,7 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         private const val DEFAULT_FRACTION_BREAK_END = 0.65
         private const val DEFAULT_PROGRESS = 0f
         private const val DEFAULT_IS_UP_TO_DOWN = true
+        private const val DEFAULT_SKIP_BREAK_TIME = false
     }
 
     private val fraction = Fraction()
@@ -95,11 +96,21 @@ class UpDownArrowDrawable(context: Context): Drawable() {
             }
         }
 
+    var skipBreakTime
+        get() = fraction.skipBreakTime
+        set(value) {
+            if (fraction.skipBreakTime != value) {
+                fraction.skipBreakTime = value
+                invalidateSelf()
+            }
+        }
+
     init {
         breakStart = DEFAULT_FRACTION_BREAK_START
         breakEnd = DEFAULT_FRACTION_BREAK_END
         arrowColor = DEFAULT_ARROW_COLOR
         arrowThickness = dpToPx(DEFAULT_ARROW_THICKNESS, context).toFloat()
+        skipBreakTime = DEFAULT_SKIP_BREAK_TIME
         paint.style = Paint.Style.STROKE
         paint.strokeCap = Paint.Cap.ROUND
         paint.strokeJoin = Paint.Join.ROUND
@@ -170,7 +181,7 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         @FloatRange(
             from = MIN_BREAK_POSITION,
             to = MAX_BREAK_POSITION)
-        var breakStart = 0.5
+        var breakStart = DEFAULT_FRACTION_BREAK_START
             set(value) {
                 field = Math.min(
                     MathUtils.clamp(value, MIN_BREAK_POSITION, MAX_BREAK_POSITION),
@@ -180,12 +191,14 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         @FloatRange(
             from = MIN_BREAK_POSITION
             , to = MAX_BREAK_POSITION)
-        var breakEnd = 0.5
+        var breakEnd = DEFAULT_FRACTION_BREAK_END
             set(value) {
                 field = Math.max(
                     breakStart,
                     MathUtils.clamp(value, MIN_BREAK_POSITION, MAX_BREAK_POSITION))
             }
+
+        var skipBreakTime = DEFAULT_SKIP_BREAK_TIME
 
         /**
          * t: 0.0        -> breakStart / return: 1.0 -> 0.0
@@ -193,10 +206,14 @@ class UpDownArrowDrawable(context: Context): Drawable() {
          * t: breakEnd   -> 1.0        / return: 0.0 -> -1.0
          */
         @FloatRange(from = -1.0, to = 1.0)
-        fun get(@FloatRange(from = 0.0, to = 1.0) t: Float): Float = when {
-            t < breakStart -> Math.cos(HALF_PI * t / breakStart).toFloat()
-            t < breakEnd -> 0f
-            else -> Math.cos(HALF_PI * (1 + (t - breakEnd) / (1 - breakEnd))).toFloat()
-        }
+        fun get(@FloatRange(from = 0.0, to = 1.0) t: Float): Float =
+            if (skipBreakTime) Math.cos(Math.PI * t).toFloat()
+            else when {
+                t < breakStart -> Math.cos(HALF_PI * t / breakStart).toFloat()
+                t < breakEnd -> 0f
+                else -> Math.cos(HALF_PI * (1 + (t - breakEnd) / (1 - breakEnd))).toFloat()
+            }
+
+
     }
 }
