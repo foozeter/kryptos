@@ -1,8 +1,8 @@
 package com.hayashibambi.kryptos
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
 import android.view.View
 
@@ -60,9 +60,17 @@ class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
 
         a.recycle()
 
-        // Call setBackground(Drawable) to set
-        // the arrow drawable as a background.
-        background = super.getBackground()
+        arrow.callback = this
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        arrow.draw(canvas)
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        arrow.setBounds(0, 0, w, h)
     }
 
     override fun onLayout(changed: Boolean, left: Int,
@@ -79,19 +87,6 @@ class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
         arrow.progress = progress
     }
 
-    override fun setBackground(background: Drawable?) {
-        when {
-            // Maybe, the super class will call this method in its constructor,
-            // in that case, 'arrow' is not initialized yet.
-            arrow == null -> super.setBackground(background)
-            background == null -> super.setBackground(arrow)
-            else -> super.setBackground(LayerDrawable(arrayOf(background, arrow)))
-        }
-    }
-
-    override fun getBackground(): Drawable? {
-        val bg = super.getBackground()
-        return if (bg is LayerDrawable) bg.getDrawable(0)
-        else bg
-    }
+    override fun verifyDrawable(who: Drawable) =
+        who == arrow || super.verifyDrawable(who)
 }

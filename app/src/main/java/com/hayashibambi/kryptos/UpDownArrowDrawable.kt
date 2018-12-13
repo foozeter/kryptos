@@ -23,7 +23,7 @@ class UpDownArrowDrawable(context: Context): Drawable() {
     private val fraction = Fraction()
     private val paint = Paint()
     private val path = Path()
-    private val drawArea = RectF()
+    private val drawArea = Rect()
     private val left = PointF()
     private val right = PointF()
     private val center = PointF()
@@ -133,13 +133,15 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         var h = drawArea.height() / 2 * fraction.get(progress)
         if (!isUpToDown) h *= -1
         val centerY = drawArea.centerY()
-        left.x = drawArea.left
+        left.x = drawArea.left.toFloat()
         left.y = centerY + h
-        center.x = drawArea.centerX()
+        center.x = drawArea.centerX().toFloat()
         center.y = centerY - h
-        right.x = drawArea.right
+        right.x = drawArea.right.toFloat()
         right.y = left.y
     }
+
+    override fun getDirtyBounds() = drawArea
 
     override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
@@ -166,10 +168,10 @@ class UpDownArrowDrawable(context: Context): Drawable() {
 
     private fun invalidateDrawArea(bounds: Rect) {
         drawArea.set(bounds)
-        val g = arrowThickness / 2
-        val verticalPadding = (drawArea.height() - arrowHeight) / 2
-        val horizontalPadding = (drawArea.width() - arrowWidth) / 2
-        drawArea.inset(horizontalPadding + g, verticalPadding + g)
+        val g = arrowThickness / 2f
+        val verticalPadding = (drawArea.height() - arrowHeight) / 2f
+        val horizontalPadding = (drawArea.width() - arrowWidth) / 2f
+        drawArea.inset((horizontalPadding + g).toInt(), (verticalPadding + g).toInt())
     }
 
     private fun Path.moveTo(point: PointF) = this.moveTo(point.x, point.y)

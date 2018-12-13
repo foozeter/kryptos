@@ -10,6 +10,6 @@
             android:layout_height="50dp"
             android:id="@+id/test_view"
             android:layout_gravity="center"
-            android:background="@color/colorAccent"
-            app:upa_arrowColor="#ffffff"/>
+            app:upa_arrowColor="@color/colorPrimary"
+            android:background="?selectableItemBackgroundBorderless"/>
 </FrameLayout>
