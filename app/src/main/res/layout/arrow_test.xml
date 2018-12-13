@@ -13,5 +13,8 @@
             app:upa_arrowColor="@color/colorAccent"
             android:background="?selectableItemBackgroundBorderless"
     app:upa_richDrawing="true"
+            app:upa_isUpToDown="true"
+            app:upa_mode="cross"
+            app:upa_skipBreakTime="true"
     app:upa_arrowCurvature="0.6"/>
 </FrameLayout>

@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.FloatRange
 import androidx.core.math.MathUtils
 
-class UpDownArrowDrawable(context: Context): Drawable() {
+internal class UpDownArrowDrawable(context: Context): Drawable() {
 
     companion object {
         private const val DEFAULT_ARROW_WIDTH = 48 // dip
@@ -19,22 +19,24 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         private const val DEFAULT_IS_UP_TO_DOWN = true
         private const val DEFAULT_SKIP_BREAK_TIME = false
         private const val DEFAULT_RICH_DRAWING = true
-        private const val DEFAULT_ARROW_CURVATURE = 0.7f
+        private const val DEFAULT_ARROW_CURVATURE = 0.7f // use in rich drawing
     }
+
+    private var mode: Mode = Flip()
+        set(value) {
+            if (field != value) {
+                field = value
+                invalidateSelf()
+            }
+        }
 
     private val fraction = Fraction()
     private val paint = Paint()
-    private val path = Path()
     private val drawArea = Rect()
-    private val left = PointF()
-    private val right = PointF()
-    private val center = PointF()
-    private val bezierStart = PointF()
-    private val bezierEnd = PointF()
 
     /**
      * If this is TRUE, the arrow shape will be drawn
-     * using the bezier curve.
+     * using the bezier curve (ONLY available in Flip-Mode for now).
      */
     var richDrawing = DEFAULT_RICH_DRAWING
         set(value) {
@@ -43,7 +45,6 @@ class UpDownArrowDrawable(context: Context): Drawable() {
                 invalidateSelf()
             }
         }
-
 
     @FloatRange(from = 0.0, to = 1.0)
     var arrowCurvature = DEFAULT_ARROW_CURVATURE
@@ -147,46 +148,26 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         paint.isAntiAlias = true
     }
 
-    override fun draw(canvas: Canvas) {
-        calculatePosition()
-        path.reset()
-        path.moveTo(left)
-
-        if (richDrawing) {
-            path.lineTo(bezierStart)
-            path.quadTo(center, bezierEnd)
-        } else {
-            path.lineTo(center)
-        }
-
-        path.lineTo(right)
-        canvas.drawPath(path, paint)
-    }
-
-    private fun calculatePosition() {
-        var h = drawArea.height() / 2 * fraction.get(progress)
-        if (!isUpToDown) h *= -1
-        val centerY = drawArea.centerY()
-        left.x = drawArea.left.toFloat()
-        left.y = centerY + h
-        center.x = drawArea.centerX().toFloat()
-        center.y = centerY - h
-        right.x = drawArea.right.toFloat()
-        right.y = left.y
-
-        if (richDrawing) {
-            bezierStart.x = left.x + (center.x - left.x) * arrowCurvature
-            bezierStart.y = left.y + (center.y - left.y) * arrowCurvature
-            bezierEnd.x = right.x + (center.x - right.x) * arrowCurvature
-            bezierEnd.y = right.y + (center.y - right.y) * arrowCurvature
-        }
-    }
+    override fun draw(canvas: Canvas) =
+        mode.draw(canvas, paint, fraction.get(progress))
 
     override fun getDirtyBounds() = drawArea
 
     override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
         invalidateDrawArea(bounds)
+    }
+
+    fun setAsFlipMode() {
+        if (mode !is Flip) {
+            mode = Flip()
+        }
+    }
+
+    fun setAsCrossMode() {
+        if (mode !is Cross) {
+            mode = Cross()
+        }
     }
 
     override fun setAlpha(alpha: Int) {
@@ -215,9 +196,12 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         drawArea.inset((horizontalPadding + g).toInt(), (verticalPadding + g).toInt())
     }
 
+    private fun Path.moveTo(x: Int, y: Int) = this.moveTo(x.toFloat(), y.toFloat())
+    private fun Path.lineTo(x: Int, y: Int) = this.lineTo(x.toFloat(), y.toFloat())
     private fun Path.moveTo(point: PointF) = this.moveTo(point.x, point.y)
     private fun Path.lineTo(point: PointF) = this.lineTo(point.x, point.y)
     private fun Path.quadTo(control: PointF, end: PointF) = this.quadTo(control.x, control.y, end.x, end.y)
+    private fun Canvas.drawLine(start: PointF, end: PointF, paint: Paint) = this.drawLine(start.x, start.y, end.x, end.y, paint)
 
     private fun dpToPx(dp: Int, context: Context)
             = (context.resources.displayMetrics.density * dp).toInt()
@@ -227,7 +211,6 @@ class UpDownArrowDrawable(context: Context): Drawable() {
         companion object {
             private const val MIN_BREAK_POSITION = 0.1
             private const val MAX_BREAK_POSITION = 0.9
-            private const val HALF_PI = Math.PI / 2
         }
 
         @FloatRange(
@@ -259,13 +242,115 @@ class UpDownArrowDrawable(context: Context): Drawable() {
          */
         @FloatRange(from = -1.0, to = 1.0)
         fun get(@FloatRange(from = 0.0, to = 1.0) t: Float): Float =
-            if (skipBreakTime) Math.cos(Math.PI * t).toFloat()
+            if (skipBreakTime) 1f - 2f * t
             else when {
-                t < breakStart -> Math.cos(HALF_PI * t / breakStart).toFloat()
+                t < breakStart -> (1f - t / breakStart).toFloat()
                 t < breakEnd -> 0f
-                else -> Math.cos(HALF_PI * (1 + (t - breakEnd) / (1 - breakEnd))).toFloat()
+                else -> -((t - breakEnd) / (1 - breakEnd)).toFloat()
+            }
+    }
+
+    private interface Mode {
+        fun draw(canvas: Canvas, paint: Paint, fraction: Float)
+    }
+
+    private inner class Flip: Mode {
+
+        private val path = Path()
+        private val left = PointF()
+        private val right = PointF()
+        private val center = PointF()
+        private val bezierStart = PointF()
+        private val bezierEnd = PointF()
+
+        override fun draw(canvas: Canvas, paint: Paint, fraction: Float) {
+            calculatePosition(fraction)
+            path.reset()
+            path.moveTo(left)
+
+            if (richDrawing) {
+                path.lineTo(bezierStart)
+                path.quadTo(center, bezierEnd)
+            } else {
+                path.lineTo(center)
             }
 
+            path.lineTo(right)
+            canvas.drawPath(path, paint)
+        }
 
+        private fun calculatePosition(fraction: Float) {
+            var dy = drawArea.height() / 2 * fraction
+            if (!isUpToDown) dy *= -1
+            val centerY = drawArea.centerY()
+            left.x = drawArea.left.toFloat()
+            left.y = centerY + dy
+            center.x = drawArea.centerX().toFloat()
+            center.y = centerY - dy
+            right.x = drawArea.right.toFloat()
+            right.y = left.y
+
+            if (richDrawing) {
+                bezierStart.x = left.x + (center.x - left.x) * arrowCurvature
+                bezierStart.y = left.y + (center.y - left.y) * arrowCurvature
+                bezierEnd.x = right.x + (center.x - right.x) * arrowCurvature
+                bezierEnd.y = right.y + (center.y - right.y) * arrowCurvature
+            }
+        }
+    }
+
+    /**
+     * This class does not support rich drawing.
+     */
+    private inner class Cross: Mode {
+
+        private val path = Path()
+        private val leftBelow = PointF()
+        private val leftAbove = PointF()
+        private val rightBelow = PointF()
+        private val rightAbove = PointF()
+
+        override fun draw(canvas: Canvas, paint: Paint, fraction: Float) {
+            when {
+
+                (fraction == 1f && isUpToDown) || (fraction == -1f && !isUpToDown) -> {
+                    path.reset()
+                    path.moveTo(drawArea.left, drawArea.bottom)
+                    path.lineTo(drawArea.centerX(), drawArea.top)
+                    path.lineTo(drawArea.right, drawArea.bottom)
+                    canvas.drawPath(path, paint)
+                }
+
+                (fraction == 1f && !isUpToDown) || (fraction == -1f && isUpToDown) -> {
+                    path.reset()
+                    path.moveTo(drawArea.left, drawArea.top)
+                    path.lineTo(drawArea.centerX(), drawArea.bottom)
+                    path.lineTo(drawArea.right, drawArea.top)
+                    canvas.drawPath(path, paint)
+                }
+
+                else -> {
+                    calculatePosition(fraction)
+                    canvas.drawLine(leftBelow, leftAbove, paint)
+                    canvas.drawLine(rightBelow, rightAbove, paint)
+                }
+            }
+        }
+
+        private fun calculatePosition(fraction: Float) {
+            val q = drawArea.width() / 4f
+            val bl = drawArea.left + q
+            val br = drawArea.right - q
+            var dq = q * fraction
+            if (!isUpToDown) dq *= -1
+            leftBelow.x = bl - dq
+            leftBelow.y = drawArea.bottom.toFloat()
+            leftAbove.x = br - dq
+            leftAbove.y = drawArea.top.toFloat()
+            rightBelow.x = br + dq
+            rightBelow.y = leftBelow.y
+            rightAbove.x = bl + dq
+            rightAbove.y = leftAbove.y
+        }
     }
 }

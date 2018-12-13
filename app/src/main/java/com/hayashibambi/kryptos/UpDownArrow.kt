@@ -8,6 +8,19 @@ import android.view.View
 
 class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
 
+    companion object {
+        private const val ATTR_MODE_FLIP = 0
+        private const val ATTR_MODE_CROSS = 1
+    }
+
+    var progress: Float
+        set(value) { arrow.progress = value }
+        get() = arrow.progress
+
+    var isUpToDown: Boolean
+        set(value) { arrow.isUpToDown = value }
+        get() = arrow.isUpToDown
+
     private val arrow = UpDownArrowDrawable(context)
     private val fitToViewSize: Boolean
 
@@ -66,7 +79,18 @@ class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
             R.styleable.UpDownArrow_upa_fitToViewSize,
             false)
 
+        val mode = a.getInt(
+            R.styleable.UpDownArrow_upa_mode,
+            ATTR_MODE_FLIP)
+
         a.recycle()
+
+        when (mode) {
+            ATTR_MODE_FLIP -> arrow.setAsFlipMode()
+            ATTR_MODE_CROSS -> arrow.setAsCrossMode()
+            else -> throw IllegalStateException(
+                "unknown mode: $mode")
+        }
 
         arrow.callback = this
     }
@@ -91,10 +115,8 @@ class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
         }
     }
 
-    fun setProgress(progress: Float) {
-        arrow.progress = progress
-    }
-
+    // This is VERY IMPORTANT!!
+    // See invalidateDrawable(Drawable) method in View class.
     override fun verifyDrawable(who: Drawable) =
         who == arrow || super.verifyDrawable(who)
 }

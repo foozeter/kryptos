@@ -1,5 +1,7 @@
 package com.hayashibambi.kryptos
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
@@ -23,9 +25,14 @@ class HomeActivity : AppCompatActivity() {
             setOnClickListener { view ->
                 Toast.makeText(this@HomeActivity, "start the animation!", Toast.LENGTH_SHORT).show()
                 val anim = ObjectAnimator.ofFloat(0f, 1f)
-                anim.duration = 5000
+                anim.duration = 500
+                anim.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        (view as UpDownArrow).progress = 0f
+                    }
+                })
                 anim.addUpdateListener {
-                    (view as UpDownArrow).setProgress(it.animatedFraction)
+                    (view as UpDownArrow).progress = it.animatedFraction
 //                    ViewCompat.postInvalidateOnAnimation(view)
                 }
                 anim.start()

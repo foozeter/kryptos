@@ -28,5 +28,9 @@
         <attr name="upa_fitToViewSize" format="boolean"/>
         <attr name="upa_skipBreakTime" format="boolean"/>
         <attr name="upa_richDrawing" format="boolean"/>
+        <attr name="upa_mode" format="enum">
+            <enum name="flip" value="0"/>
+            <enum name="cross" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>
