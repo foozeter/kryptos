@@ -30,6 +30,10 @@ class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
             R.styleable.UpDownArrow_upa_arrowThickness,
             arrow.arrowThickness.toInt()).toFloat()
 
+        arrow.arrowColor = a.getColor(
+            R.styleable.UpDownArrow_upa_arrowColor,
+            arrow.arrowColor)
+
         arrow.breakStart = a.getFloat(
             R.styleable.UpDownArrow_upa_breakStart,
             arrow.breakStart.toFloat()).toDouble()

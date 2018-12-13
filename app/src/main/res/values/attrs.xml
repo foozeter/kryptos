@@ -19,6 +19,7 @@
         <attr name="upa_arrowWidth" format="dimension"/>
         <attr name="upa_arrowHeight" format="dimension"/>
         <attr name="upa_arrowThickness" format="dimension"/>
+        <attr name="upa_arrowColor" format="color"/>
         <attr name="upa_breakStart" format="float"/>
         <attr name="upa_breakEnd" format="float"/>
         <attr name="upa_progress" format="float"/>
