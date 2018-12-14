@@ -129,6 +129,22 @@ open class SlashLayout(
         if(changed && autoTopPadding) insertAutoTopPadding()
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        val parent = parent
+        if (parent is SpecialCoordinatorLayout && this.id != 0) {
+            parent.addTouchDetectionDelegate(TouchDetectionDelegate(this.id))
+        }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        val parent = parent
+        if (parent is SpecialCoordinatorLayout && this.id != 0) {
+            parent.removeTouchDetectionDelegate(this.id)
+        }
+    }
+
     /**
      * Automatically inserts the top padding so that whole contents will be visible.
      */
@@ -269,15 +285,23 @@ open class SlashLayout(
         if (isPointOutOfBounds(ev.x, ev.y)) true
         else super.onInterceptTouchEvent(ev)
 
-    internal fun isPointOutOfBounds(x: Int, y: Int)
+    private fun isPointOutOfBounds(x: Int, y: Int)
             = isPointOutOfBounds(x.toFloat(), y.toFloat())
 
     /**
      * (x,y) is a local coordinate.
      */
-    internal fun isPointOutOfBounds(x: Float, y: Float)
+    private fun isPointOutOfBounds(x: Float, y: Float)
             = !(0..width).contains(x) || y > height || x*heightDiff/width > y
 
     private fun dpToPx(dp: Int)
             = (context.resources.displayMetrics.density * dp).toInt()
+
+    private class TouchDetectionDelegate(
+        override val targetId: Int)
+        : SpecialCoordinatorLayout.TouchDetectionDelegate {
+
+        override fun isPointInTargetBounds(target: View, x: Int, y: Int)
+                = !(target as SlashLayout).isPointOutOfBounds(x - target.left, y - target.top)
+    }
 }
