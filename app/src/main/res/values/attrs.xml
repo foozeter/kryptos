@@ -10,11 +10,6 @@
         <attr name="slash_autoTopPadding" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="ShrinkFrameLayout">
-        <attr name="shrink_amountOfHeight" format="dimension"/>
-        <attr name="shrink_amountOfWidth" format="dimension"/>
-    </declare-styleable>
-
     <declare-styleable name="UpDownArrow">
         <attr name="upa_arrowWidth" format="dimension"/>
         <attr name="upa_arrowHeight" format="dimension"/>
@@ -32,5 +27,15 @@
             <enum name="flip" value="0"/>
             <enum name="cross" value="1"/>
         </attr>
+    </declare-styleable>
+    
+    <declare-styleable name="DodgeBottomSheetBehavior">
+        <attr name="dodge_revealFromLeftSide" format="boolean"/>
+        <attr name="dodge_anchorTo" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="DependentBottomSheetBehavior">
+        <attr name="behavior_belowOfOnExpanded" format="reference"/>
+        <attr name="behavior_belowOfOnCollapsed" format="reference"/>
     </declare-styleable>
 </resources>
