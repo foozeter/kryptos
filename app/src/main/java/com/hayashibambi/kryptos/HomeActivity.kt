@@ -1,6 +1,7 @@
 package com.hayashibambi.kryptos
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -24,5 +25,16 @@ class HomeActivity : AppCompatActivity() {
 //        root_layout.post {
 //            sheetBehavior?.peekHeight = fragment_container.height - menu.height
 //        }
+    }
+
+    private class SheetCallback: BottomSheetBehavior.BottomSheetCallback() {
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            Log.d("mylog", "onSlide offset=$slideOffset")
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            Log.d("mylog", "state changed")
+        }
     }
 }

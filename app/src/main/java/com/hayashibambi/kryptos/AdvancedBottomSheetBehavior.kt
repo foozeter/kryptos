@@ -18,17 +18,42 @@ class AdvancedBottomSheetBehavior<V: View>(
     @IdRes
     val belowOfOnCollapsed: Int
 
+    private val isOverDraggingEnabled: Boolean
+
+    private val defaultState: Int
+
+    private val bottomSheetFader = BottomSheetFader()
+
+    private var userCallback: BottomSheetCallback? = null
+
     init {
         val a = context.theme.obtainStyledAttributes(
             attributeSet, R.styleable.AdvancedBottomSheetBehavior, 0, 0)
 
         belowOfOnExpanded = a.getResourceId(
-            R.styleable.AdvancedBottomSheetBehavior_behavior_belowOfOnExpanded, 0)
+            R.styleable.AdvancedBottomSheetBehavior_absb_belowOfOnExpanded, 0)
 
         belowOfOnCollapsed = a.getResourceId(
-            R.styleable.AdvancedBottomSheetBehavior_behavior_belowOfOnCollapsed, 0)
+            R.styleable.AdvancedBottomSheetBehavior_absb_belowOfOnCollapsed, 0)
+
+        isOverDraggingEnabled = a.getBoolean(
+            R.styleable.AdvancedBottomSheetBehavior_absb_enableOverDragging, false)
+
+        bottomSheetFader.isEnabled = a.getBoolean(
+            R.styleable.AdvancedBottomSheetBehavior_absb_fadeOutSheetOnDragging, false)
+
+        bottomSheetFader.collapsedSheetAlpha = a.getFraction(
+            R.styleable.AdvancedBottomSheetBehavior_absb_collapsedSheetAlpha, 1, 1, 0.5f)
+
+        defaultState = a.getInt(
+            R.styleable.AdvancedBottomSheetBehavior_absb_defaultState,
+            BottomSheetBehavior.STATE_COLLAPSED)
 
         a.recycle()
+
+        super.setBottomSheetCallback(InternalBottomSheetCallback())
+        state = defaultState
+        if (isOverDraggingEnabled) isHideable = true
     }
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: V, dependency: View)
@@ -50,6 +75,8 @@ class AdvancedBottomSheetBehavior<V: View>(
             }
         }
 
+        bottomSheetFader.applyAlphaForStableState(child, state)
+
         return laidOut
     }
 
@@ -64,5 +91,26 @@ class AdvancedBottomSheetBehavior<V: View>(
         }
 
         return changed
+    }
+
+    override fun setBottomSheetCallback(callback: BottomSheetCallback?) {
+        userCallback = callback
+    }
+
+    private inner class InternalBottomSheetCallback: BottomSheetCallback() {
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            bottomSheetFader.onSlide(bottomSheet, slideOffset)
+            userCallback?.onSlide(bottomSheet, slideOffset)
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            bottomSheetFader.onStateChanged(bottomSheet, newState)
+            userCallback?.onStateChanged(bottomSheet, newState)
+
+            if (newState == BottomSheetBehavior.STATE_HIDDEN && isOverDraggingEnabled) {
+                state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
     }
 }

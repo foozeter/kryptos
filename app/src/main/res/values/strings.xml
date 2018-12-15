@@ -140,6 +140,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
-    <string name="dependent_bttom_sheet_behavior">com.hayashibambi.kryptos.DependentBottomSheetBehavior</string>
+    <string name="advanced_bttom_sheet_behavior">com.hayashibambi.kryptos.AdvancedBottomSheetBehavior</string>
     <string name="whack_a_mole_behavior">com.hayashibambi.kryptos.WhackAMoleBehavior</string>
 </resources>
