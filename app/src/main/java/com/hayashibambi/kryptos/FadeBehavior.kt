@@ -8,4 +8,5 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 class FadeBehavior<V: View>(context: Context, attrs: AttributeSet)
     : CoordinatorLayout.Behavior<V>() {
 
+
 }

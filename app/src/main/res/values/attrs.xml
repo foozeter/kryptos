@@ -47,4 +47,15 @@
             <enum name="hidden" value="5"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="BottomSheetFamilyLayout">
+        <attr name="layout_hostBottomSheet" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="LinkageFadeBehavior">
+        <attr name="behavior_alphaOnDependencyExpanded" format="fraction"/>
+        <attr name="behavior_alphaOnDependencyCollapsed" format="fraction"/>
+        <attr name="behavior_alphaOnDependencyHidden" format="fraction"/>
+    </declare-styleable>
+
 </resources>
