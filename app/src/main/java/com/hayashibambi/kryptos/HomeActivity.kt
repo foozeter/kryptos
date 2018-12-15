@@ -1,11 +1,8 @@
 package com.hayashibambi.kryptos
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
@@ -13,31 +10,13 @@ class HomeActivity : AppCompatActivity() {
 
     private var sheetBehavior: BottomSheetBehavior<*>? = null
 
+    private val icon: ImageView by bindView(R.id.icon)
+
+    private fun <V: View> AppCompatActivity.bindView(id: Int) = lazy { findViewById<V>(id) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_home)
-//        buildSheetBehavior()
-
-        setContentView(R.layout.arrow_test)
-//        val arrow = UpDownArrowDrawable(this)
-//        arrow.isUpToDown = false
-        findViewById<View>(R.id.test_view).apply {
-            setOnClickListener { view ->
-                Toast.makeText(this@HomeActivity, "start the animation!", Toast.LENGTH_SHORT).show()
-                val anim = ObjectAnimator.ofFloat(0f, 1f)
-                anim.duration = 500
-                anim.addListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
-                        (view as UpDownArrow).progress = 0f
-                    }
-                })
-                anim.addUpdateListener {
-                    (view as UpDownArrow).progress = it.animatedFraction
-//                    ViewCompat.postInvalidateOnAnimation(view)
-                }
-                anim.start()
-            }
-        }
+        setContentView(R.layout.activity_home)
     }
 
     private fun buildSheetBehavior() {

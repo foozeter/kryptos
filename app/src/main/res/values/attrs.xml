@@ -29,9 +29,10 @@
         </attr>
     </declare-styleable>
     
-    <declare-styleable name="DodgeBottomSheetBehavior">
-        <attr name="dodge_revealFromLeftSide" format="boolean"/>
-        <attr name="dodge_anchorTo" format="reference"/>
+    <declare-styleable name="WhackAMoleBehavior">
+        <attr name="wam_anchorBottomSheet" format="reference"/>
+        <attr name="wam_detectionRange" format="dimension"/>
+        <attr name="wam_revealFromLeftSide" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="DependentBottomSheetBehavior">
