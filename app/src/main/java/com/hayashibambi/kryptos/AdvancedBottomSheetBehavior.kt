@@ -7,7 +7,7 @@ import androidx.annotation.IdRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
-class DependentBottomSheetBehavior<V: View>(
+class AdvancedBottomSheetBehavior<V: View>(
     context: Context,
     attributeSet: AttributeSet)
     : BottomSheetBehavior<V>(context, attributeSet) {
@@ -20,13 +20,13 @@ class DependentBottomSheetBehavior<V: View>(
 
     init {
         val a = context.theme.obtainStyledAttributes(
-            attributeSet, R.styleable.DependentBottomSheetBehavior, 0, 0)
+            attributeSet, R.styleable.AdvancedBottomSheetBehavior, 0, 0)
 
         belowOfOnExpanded = a.getResourceId(
-            R.styleable.DependentBottomSheetBehavior_behavior_belowOfOnExpanded, 0)
+            R.styleable.AdvancedBottomSheetBehavior_behavior_belowOfOnExpanded, 0)
 
         belowOfOnCollapsed = a.getResourceId(
-            R.styleable.DependentBottomSheetBehavior_behavior_belowOfOnCollapsed, 0)
+            R.styleable.AdvancedBottomSheetBehavior_behavior_belowOfOnCollapsed, 0)
 
         a.recycle()
     }

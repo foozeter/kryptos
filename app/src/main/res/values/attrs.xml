@@ -35,7 +35,7 @@
         <attr name="wam_revealFromLeftSide" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="DependentBottomSheetBehavior">
+    <declare-styleable name="AdvancedBottomSheetBehavior">
         <attr name="behavior_belowOfOnExpanded" format="reference"/>
         <attr name="behavior_belowOfOnCollapsed" format="reference"/>
     </declare-styleable>
