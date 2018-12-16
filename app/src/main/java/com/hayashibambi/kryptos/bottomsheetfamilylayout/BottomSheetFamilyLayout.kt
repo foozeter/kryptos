@@ -44,6 +44,7 @@ class BottomSheetFamilyLayout(
             val behavior = (sheet.layoutParams as CoordinatorLayout.LayoutParams).behavior
             if (behavior is HostBottomSheetBehavior) {
                 hostBehavior = behavior
+                hostBehavior!!.viewId = bottomSheetId
             }
         }
 

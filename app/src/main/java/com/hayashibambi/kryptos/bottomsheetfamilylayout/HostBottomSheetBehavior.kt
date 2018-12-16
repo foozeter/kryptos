@@ -10,6 +10,12 @@ class HostBottomSheetBehavior<V: View>(context: Context, attrs: AttributeSet?)
     private val linkageBehaviors = mutableListOf<LinkageBehavior<*>>()
     private var userCallback: BottomSheetCallback? = null
 
+    /**
+     * Only ButtonSheetFamilyLayout is allowed to modify this property.
+     */
+    var viewId: Int = View.NO_ID
+        internal set
+
     init {
         super.setBottomSheetCallback(InternalCallback())
     }
@@ -17,11 +23,13 @@ class HostBottomSheetBehavior<V: View>(context: Context, attrs: AttributeSet?)
     fun addLinkageBehavior(behavior: LinkageBehavior<*>) {
         linkageBehaviors.add(behavior)
         behavior.host = this
+        behavior.hostViewId = viewId
     }
 
     fun removeLinkageBehavior(behavior: LinkageBehavior<*>) {
         linkageBehaviors.remove(behavior)
         behavior.host = null
+        behavior.hostViewId = View.NO_ID
     }
 
     override fun setBottomSheetCallback(callback: BottomSheetCallback?) {

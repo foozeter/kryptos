@@ -58,4 +58,15 @@
         <attr name="behavior_alphaOnDependencyHidden" format="fraction"/>
     </declare-styleable>
 
+    <declare-styleable name="LinkageWhackAMoleBehavior">
+        <attr name="behavior_detectionRange" format="dimension"/>
+        <attr name="behavior_revealFromLeftSide" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="LinkageFractionBehavior">
+        <attr name="behavior_fractionOnDependencyExpanded" format="fraction"/>
+        <attr name="behavior_fractionOnDependencyCollapsed" format="fraction"/>
+        <attr name="behavior_fractionOnDependencyHidden" format="fraction"/>
+    </declare-styleable>
+
 </resources>

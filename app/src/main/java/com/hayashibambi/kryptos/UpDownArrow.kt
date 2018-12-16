@@ -5,8 +5,10 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
+import com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageFractionBehavior
 
-class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
+class UpDownArrow(context: Context, attrs: AttributeSet)
+    : View(context, attrs), LinkageFractionBehavior.FractionConsumer {
 
     companion object {
         private const val ATTR_MODE_FLIP = 0
@@ -119,4 +121,8 @@ class UpDownArrow(context: Context, attrs: AttributeSet): View(context, attrs) {
     // See invalidateDrawable(Drawable) method in View class.
     override fun verifyDrawable(who: Drawable) =
         who == arrow || super.verifyDrawable(who)
+
+    override fun supplyFraction(fraction: Float) {
+        progress = fraction
+    }
 }

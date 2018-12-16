@@ -22,10 +22,38 @@
     app:behavior_alphaOnDependencyExpanded="30%"
     app:behavior_alphaOnDependencyHidden="50%"/>
 
+    <com.hayashibambi.kryptos.UpDownArrow
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+    android:layout_gravity="end"
+    app:upa_arrowWidth="24dp"
+    app:upa_arrowHeight="14dp"
+    app:upa_arrowThickness="4dp"
+    app:upa_richDrawing="false"
+    app:upa_mode="cross"
+    app:layout_behavior="@string/linkage_fraction_behavior"
+            app:behavior_fractionOnDependencyCollapsed="100%"
+            app:behavior_fractionOnDependencyExpanded="30%"
+            app:behavior_fractionOnDependencyHidden="50%"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:text="menu 1"
+              android:textSize="18sp"
+              android:layout_marginStart="88dp"
+              android:paddingStart="24dp"
+              android:textColor="#ffffff"
+              android:paddingEnd="0dp"
+              android:id="@+id/menu"
+              android:gravity="center_vertical"
+              android:background="#ff0000"
+              android:layout_marginTop="88dp"
+              app:layout_behavior="@string/linkage_whack_a_hole_behavior"/>
+
     <FrameLayout android:layout_width="match_parent"
                  android:layout_height="match_parent"
     android:id="@+id/sheet"
-    app:layout_behavior="@string/family_bottom_sheet_behavior"
+    app:layout_behavior="@string/host_bottom_sheet_behavior"
     android:background="@color/colorAccent"
     app:behavior_peekHeight="200dp"
     app:behavior_hideable="true"/>
