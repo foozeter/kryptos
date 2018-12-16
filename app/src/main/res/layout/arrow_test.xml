@@ -7,6 +7,14 @@
              android:layout_height="match_parent"
         app:layout_hostBottomSheet="@id/sheet">
 
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:id="@+id/sheet"
+                 app:layout_behavior="@string/host_bottom_sheet_behavior"
+                 android:background="@color/colorAccent"
+                 app:behavior_peekHeight="200dp"
+                 app:behavior_hideable="true"/>
+
     <TextView android:layout_width="match_parent"
               android:layout_height="56dp"
               android:text="@string/app_name"
@@ -17,10 +25,10 @@
               android:id="@+id/title_bar"
               android:gravity="center_vertical"
               android:background="#ff00ff"
-              app:layout_behavior="@string/linkage_fade_behavior"
-    app:behavior_alphaOnDependencyCollapsed="100%"
-    app:behavior_alphaOnDependencyExpanded="30%"
-    app:behavior_alphaOnDependencyHidden="50%"/>
+              app:layout_behavior="@string/linkage_alpha_behavior"
+              app:behavior_valueOnDependencyCollapsed="1.0"
+              app:behavior_valueOnDependencyExpanded="0.0"
+              app:behavior_valueOnDependencyHidden="0.5"/>
 
     <com.hayashibambi.kryptos.UpDownArrow
             android:layout_width="56dp"
@@ -31,11 +39,11 @@
     app:upa_arrowThickness="4dp"
     app:upa_richDrawing="false"
     app:upa_mode="cross"
-    app:layout_behavior="@string/linkage_fraction_behavior"
-            app:behavior_fractionOnDependencyCollapsed="100%"
-            app:behavior_fractionOnDependencyExpanded="30%"
-            app:behavior_fractionOnDependencyHidden="50%"
-    app:behavior_fractionInterpolator="linear"/>
+    app:layout_behavior="@string/linkage_property_behavior"
+            app:behavior_valueOnDependencyCollapsed="1.0"
+            app:behavior_valueOnDependencyExpanded="0.3"
+            app:behavior_valueOnDependencyHidden="0.5"
+    app:behavior_valueInterpolator="linear"/>
 
     <TextView android:layout_width="match_parent"
               android:layout_height="56dp"
@@ -49,14 +57,9 @@
               android:gravity="center_vertical"
               android:background="#ff0000"
               android:layout_marginTop="88dp"
-              app:layout_behavior="@string/linkage_whack_a_hole_behavior"/>
-
-    <FrameLayout android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-    android:id="@+id/sheet"
-    app:layout_behavior="@string/host_bottom_sheet_behavior"
-    android:background="@color/colorAccent"
-    app:behavior_peekHeight="200dp"
-    app:behavior_hideable="true"/>
+              app:layout_behavior="@string/linkage_rotation_behavior"
+              app:behavior_valueOnDependencyCollapsed="0.0"
+              app:behavior_valueOnDependencyExpanded="540.0"
+              app:behavior_valueOnDependencyHidden="-180.0"/>
 
 </com.hayashibambi.kryptos.bottomsheetfamilylayout.BottomSheetFamilyLayout>

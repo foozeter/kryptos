@@ -58,8 +58,9 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
 
     var progress = DEFAULT_PROGRESS
         set(value) {
-            if (field != value) {
-                field = value
+            val clamped = MathUtils.clamp(value, 0f, 1f)
+            if (field != clamped) {
+                field = clamped
                 invalidateSelf()
             }
         }

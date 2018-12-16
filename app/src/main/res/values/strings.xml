@@ -145,5 +145,8 @@
     <string name="host_bottom_sheet_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.HostBottomSheetBehavior</string>
     <string name="linkage_fade_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageFadeBehavior</string>
     <string name="linkage_whack_a_hole_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageWhackAMoleBehavior</string>
-    <string name="linkage_fraction_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageFractionBehavior</string>
+
+    <string name="linkage_property_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkagePropertyBehavior</string>
+    <string name="linkage_alpha_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageAlphaBehavior</string>
+    <string name="linkage_rotation_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageRotationBehavior</string>
 </resources>

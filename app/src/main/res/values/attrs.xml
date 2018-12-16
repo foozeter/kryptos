@@ -52,22 +52,16 @@
         <attr name="layout_hostBottomSheet" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="LinkageFadeBehavior">
-        <attr name="behavior_alphaOnDependencyExpanded" format="fraction"/>
-        <attr name="behavior_alphaOnDependencyCollapsed" format="fraction"/>
-        <attr name="behavior_alphaOnDependencyHidden" format="fraction"/>
-    </declare-styleable>
-
     <declare-styleable name="LinkageWhackAMoleBehavior">
         <attr name="behavior_detectionRange" format="dimension"/>
         <attr name="behavior_revealFromLeftSide" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="LinkageFractionBehavior">
-        <attr name="behavior_fractionOnDependencyExpanded" format="fraction"/>
-        <attr name="behavior_fractionOnDependencyCollapsed" format="fraction"/>
-        <attr name="behavior_fractionOnDependencyHidden" format="fraction"/>
-        <attr name="behavior_fractionInterpolator" format="enum">
+    <declare-styleable name="LinkageValueBehavior">
+        <attr name="behavior_valueOnDependencyExpanded" format="float"/>
+        <attr name="behavior_valueOnDependencyCollapsed" format="float"/>
+        <attr name="behavior_valueOnDependencyHidden" format="float"/>
+        <attr name="behavior_valueInterpolator" format="enum">
             <enum name="linear" value="1"/>
             <enum name="linear_out_slow_in" value="2"/>
             <enum name="accelerate" value="3"/>

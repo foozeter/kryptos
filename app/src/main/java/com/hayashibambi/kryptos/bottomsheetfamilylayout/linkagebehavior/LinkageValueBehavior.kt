@@ -10,13 +10,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hayashibambi.kryptos.R
 import com.hayashibambi.kryptos.bottomsheetfamilylayout.LinkageBehavior
 
-open class LinkageFractionBehavior<V: View>(
+abstract class LinkageValueBehavior<V: View>(
     context: Context, attrs: AttributeSet): LinkageBehavior<V>() {
     
     companion object {
-        private const val DEFAULT_FRACTION_ON_DEPENDENCY_EXPANDED = 1f
-        private const val DEFAULT_FRACTION_ON_DEPENDENCY_COLLAPSED = 0f
-        private const val DEFAULT_FRACTION_ON_DEPENDENCY_HIDDEN = 0f
 
         private const val INTERPOLATOR_LINEAR = 1
         private const val INTERPOLATOR_LINEAR_OUT_SLOW_IN = 2
@@ -27,34 +24,35 @@ open class LinkageFractionBehavior<V: View>(
         private const val INTERPOLATOR_ANTICIPATE_OVER_SHOOT = 7
 
         private const val DEFAULT_INTERPOLATOR = INTERPOLATOR_LINEAR
+        private const val DEFAULT_VALUE = 0f
     }
 
     private var target: View? = null
     
-    private val fractionOnDependencyExpanded: Float
-    private val fractionOnDependencyCollapsed: Float
-    private val fractionOnDependencyHidden: Float
+    private val valueOnDependencyExpanded: Float
+    private val valueOnDependencyCollapsed: Float
+    private val valueOnDependencyHidden: Float
 
     private val interpolator: Interpolator
     
     init {
         val a = context.obtainStyledAttributes(
-            attrs, R.styleable.LinkageFractionBehavior, 0, 0)
+            attrs, R.styleable.LinkageValueBehavior, 0, 0)
 
-        fractionOnDependencyExpanded = a.getFraction(
-            R.styleable.LinkageFractionBehavior_behavior_fractionOnDependencyExpanded,
-            1, 1, DEFAULT_FRACTION_ON_DEPENDENCY_EXPANDED)
+        valueOnDependencyExpanded = a.getFloat(
+            R.styleable.LinkageValueBehavior_behavior_valueOnDependencyExpanded,
+            DEFAULT_VALUE)
 
-        fractionOnDependencyCollapsed = a.getFraction(
-            R.styleable.LinkageFractionBehavior_behavior_fractionOnDependencyCollapsed,
-            1, 1, DEFAULT_FRACTION_ON_DEPENDENCY_COLLAPSED)
+        valueOnDependencyCollapsed = a.getFloat(
+            R.styleable.LinkageValueBehavior_behavior_valueOnDependencyCollapsed,
+            DEFAULT_VALUE)
 
-        fractionOnDependencyHidden = a.getFraction(
-            R.styleable.LinkageFractionBehavior_behavior_fractionOnDependencyHidden,
-            1, 1, DEFAULT_FRACTION_ON_DEPENDENCY_HIDDEN)
+        valueOnDependencyHidden = a.getFloat(
+            R.styleable.LinkageValueBehavior_behavior_valueOnDependencyHidden,
+            DEFAULT_VALUE)
 
         interpolator = resolveInterpolator(a.getInt(
-                R.styleable.LinkageFractionBehavior_behavior_fractionInterpolator,
+                R.styleable.LinkageValueBehavior_behavior_valueInterpolator,
                 DEFAULT_INTERPOLATOR))
 
         a.recycle()
@@ -74,24 +72,27 @@ open class LinkageFractionBehavior<V: View>(
     }
 
     override fun onDependencyBottomSheetSlide(bottomSheet: View, slideOffset: Float) {
-        val fraction = if (0 < slideOffset) {
-            fractionOnDependencyCollapsed + (fractionOnDependencyExpanded - fractionOnDependencyCollapsed)* slideOffset
-        } else {
-            fractionOnDependencyCollapsed + (fractionOnDependencyHidden - fractionOnDependencyCollapsed) * -slideOffset
-        }
+        val value =
+            if (0 < slideOffset) (valueOnDependencyCollapsed
+                        + (valueOnDependencyExpanded - valueOnDependencyCollapsed)
+                        * interpolator.getInterpolation(slideOffset))
 
-        supplyFractionToTarget(fraction)
+            else (valueOnDependencyCollapsed
+                    + (valueOnDependencyHidden - valueOnDependencyCollapsed)
+                    * -interpolator.getInterpolation(slideOffset))
+
+        supplyInterpolatedValueToTarget(value)
     }
 
     override fun onDependencyBottomSheetStateChange(bottomSheet: View, newState: Int) {
-        supplyFractionToTargetForStableDependencyState(newState)
+        supplyValueToTargetForStableDependencyState(newState)
     }
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
         val ret = super.onLayoutChild(parent, child, layoutDirection)
         target = child
-        // set the initial fraction
-        supplyFractionToTargetForStableDependencyState(host?.state ?: -1)
+        // set the initial value
+        supplyValueToTargetForStableDependencyState(host?.state ?: -1)
         return ret
     }
 
@@ -100,26 +101,18 @@ open class LinkageFractionBehavior<V: View>(
         target = null
     }
 
-    private fun supplyFractionToTargetForStableDependencyState(stableState: Int) {
+    private fun supplyValueToTargetForStableDependencyState(stableState: Int) {
         when (stableState) {
-            BottomSheetBehavior.STATE_EXPANDED -> supplyFractionToTarget(fractionOnDependencyExpanded)
-            BottomSheetBehavior.STATE_COLLAPSED -> supplyFractionToTarget(fractionOnDependencyCollapsed)
-            BottomSheetBehavior.STATE_HIDDEN -> supplyFractionToTarget(fractionOnDependencyHidden)
+            BottomSheetBehavior.STATE_EXPANDED -> supplyInterpolatedValueToTarget(valueOnDependencyExpanded)
+            BottomSheetBehavior.STATE_COLLAPSED -> supplyInterpolatedValueToTarget(valueOnDependencyCollapsed)
+            BottomSheetBehavior.STATE_HIDDEN -> supplyInterpolatedValueToTarget(valueOnDependencyHidden)
         }
     }
 
-    private fun supplyFractionToTarget(fraction: Float) {
+    private fun supplyInterpolatedValueToTarget(value: Float) {
         val target = target
-        val interpolation = interpolator.getInterpolation(fraction)
-        if (target != null) onSupplyFraction(target, fraction, interpolation)
+        if (target != null) onSupplyInterpolatedValue(target, value)
     }
 
-    // Default implementation
-    protected open fun onSupplyFraction(target: View, fraction: Float, interpolation: Float) {
-        if (target is FractionConsumer) target.supplyFraction(interpolation)
-    }
-
-    interface FractionConsumer {
-        fun supplyFraction(fraction: Float)
-    }
+    protected abstract fun onSupplyInterpolatedValue(target: View, value: Float)
 }
