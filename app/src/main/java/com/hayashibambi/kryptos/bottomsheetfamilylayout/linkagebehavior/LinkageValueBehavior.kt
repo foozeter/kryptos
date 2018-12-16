@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.*
+import androidx.annotation.FloatRange
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,39 +25,34 @@ abstract class LinkageValueBehavior<V: View>(
         private const val INTERPOLATOR_ANTICIPATE_OVER_SHOOT = 7
 
         private const val DEFAULT_INTERPOLATOR = INTERPOLATOR_LINEAR
-        private const val DEFAULT_VALUE = 0f
     }
 
-    private var target: View? = null
-    
-    private val valueOnDependencyExpanded: Float
-    private val valueOnDependencyCollapsed: Float
-    private val valueOnDependencyHidden: Float
+    protected val valueOnExpanded: Float
+    protected val valueOnCollapsed: Float
+    protected val valueOnHidden: Float
+
+    protected var target: View? = null; private set
 
     private val interpolator: Interpolator
-    
+
     init {
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.LinkageValueBehavior, 0, 0)
 
-        valueOnDependencyExpanded = a.getFloat(
-            R.styleable.LinkageValueBehavior_behavior_valueOnDependencyExpanded,
-            DEFAULT_VALUE)
+        valueOnExpanded = a.getFloat(
+            R.styleable.LinkageValueBehavior_behavior_valueOnExpanded, 0f)
 
-        valueOnDependencyCollapsed = a.getFloat(
-            R.styleable.LinkageValueBehavior_behavior_valueOnDependencyCollapsed,
-            DEFAULT_VALUE)
+        valueOnCollapsed = a.getFloat(
+            R.styleable.LinkageValueBehavior_behavior_valueOnCollapsed, 0f)
 
-        valueOnDependencyHidden = a.getFloat(
-            R.styleable.LinkageValueBehavior_behavior_valueOnDependencyHidden,
-            DEFAULT_VALUE)
+        valueOnHidden = a.getFloat(
+            R.styleable.LinkageValueBehavior_behavior_valueOnHidden, 0f)
 
         interpolator = resolveInterpolator(a.getInt(
                 R.styleable.LinkageValueBehavior_behavior_valueInterpolator,
                 DEFAULT_INTERPOLATOR))
 
         a.recycle()
-
     }
 
     private fun resolveInterpolator(enumValue: Int): Interpolator
@@ -71,28 +67,17 @@ abstract class LinkageValueBehavior<V: View>(
         else -> throw IllegalArgumentException("unknown enum type")
     }
 
-    override fun onDependencyBottomSheetSlide(bottomSheet: View, slideOffset: Float) {
-        val value =
-            if (0 < slideOffset) (valueOnDependencyCollapsed
-                        + (valueOnDependencyExpanded - valueOnDependencyCollapsed)
-                        * interpolator.getInterpolation(slideOffset))
+    override fun onDependencyBottomSheetSlide(bottomSheet: View, slideOffset: Float)
+            = applyValue(slideOffset)
 
-            else (valueOnDependencyCollapsed
-                    + (valueOnDependencyHidden - valueOnDependencyCollapsed)
-                    * -interpolator.getInterpolation(slideOffset))
-
-        supplyInterpolatedValueToTarget(value)
-    }
-
-    override fun onDependencyBottomSheetStateChange(bottomSheet: View, newState: Int) {
-        supplyValueToTargetForStableDependencyState(newState)
-    }
+    override fun onDependencyBottomSheetStateChange(bottomSheet: View, newState: Int)
+            = applyValueForDependencyStableState(newState)
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
         val ret = super.onLayoutChild(parent, child, layoutDirection)
         target = child
         // set the initial value
-        supplyValueToTargetForStableDependencyState(host?.state ?: -1)
+        applyValueForDependencyStableState(host?.state ?: -1)
         return ret
     }
 
@@ -101,18 +86,35 @@ abstract class LinkageValueBehavior<V: View>(
         target = null
     }
 
-    private fun supplyValueToTargetForStableDependencyState(stableState: Int) {
+    private fun applyValueForDependencyStableState(stableState: Int) {
         when (stableState) {
-            BottomSheetBehavior.STATE_EXPANDED -> supplyInterpolatedValueToTarget(valueOnDependencyExpanded)
-            BottomSheetBehavior.STATE_COLLAPSED -> supplyInterpolatedValueToTarget(valueOnDependencyCollapsed)
-            BottomSheetBehavior.STATE_HIDDEN -> supplyInterpolatedValueToTarget(valueOnDependencyHidden)
+            BottomSheetBehavior.STATE_EXPANDED -> applyValue(1f)
+            BottomSheetBehavior.STATE_COLLAPSED -> applyValue(0f)
+            BottomSheetBehavior.STATE_HIDDEN -> applyValue(-1f)
         }
     }
 
-    private fun supplyInterpolatedValueToTarget(value: Float) {
+    private fun applyValue(@FloatRange(from = -1.0, to = 1.0) fraction: Float) {
         val target = target
-        if (target != null) onSupplyInterpolatedValue(target, value)
+        if (target != null) {
+            var interpolation = interpolator.getInterpolation(Math.abs(fraction))
+            if (fraction < 0) interpolation *= -1
+            val value = calculateAppliedValue(interpolation)
+            onApplyValue(target, value)
+        }
     }
 
-    protected abstract fun onSupplyInterpolatedValue(target: View, value: Float)
+    /**
+     * @param fraction: interpolated slideOffset of the bottom sheet
+     *
+     * @return Returned value will be passed into onApplyValue(View, Float) as a second parameter
+     */
+    open protected fun calculateAppliedValue(@FloatRange(from = -1.0, to = 1.0) fraction: Float): Float =
+        if (0 < fraction) valueOnCollapsed + (valueOnExpanded - valueOnCollapsed) * fraction
+        else valueOnCollapsed + (valueOnHidden - valueOnCollapsed) * -fraction
+
+    /**
+     * @param value: calculated value in LinkageValueBehavior#calculateAppliedValue(Float)
+     */
+    protected abstract fun onApplyValue(target: View, value: Float)
 }

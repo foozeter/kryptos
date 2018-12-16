@@ -149,4 +149,6 @@
     <string name="linkage_property_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkagePropertyBehavior</string>
     <string name="linkage_alpha_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageAlphaBehavior</string>
     <string name="linkage_rotation_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageRotationBehavior</string>
+    <string name="linkage_horizontal_translation_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageHorizontalTranslationBehavior</string>
+
 </resources>

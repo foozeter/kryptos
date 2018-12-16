@@ -58,9 +58,9 @@
     </declare-styleable>
 
     <declare-styleable name="LinkageValueBehavior">
-        <attr name="behavior_valueOnDependencyExpanded" format="float"/>
-        <attr name="behavior_valueOnDependencyCollapsed" format="float"/>
-        <attr name="behavior_valueOnDependencyHidden" format="float"/>
+        <attr name="behavior_valueOnExpanded" format="float"/>
+        <attr name="behavior_valueOnCollapsed" format="float"/>
+        <attr name="behavior_valueOnHidden" format="float"/>
         <attr name="behavior_valueInterpolator" format="enum">
             <enum name="linear" value="1"/>
             <enum name="linear_out_slow_in" value="2"/>
@@ -69,6 +69,37 @@
             <enum name="accelerate_decelerate" value="5"/>
             <enum name="anticipate" value="6"/>
             <enum name="anticipate_overshoot" value="7"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LinkageTranslationBehavior">
+        <attr name="behavior_pivot" format="float"/>
+        <attr name="behavior_valueTypeOnExpanded" format="enum">
+            <enum name="absolute" value="0"/>
+            <enum name="relative_to_self_size" value="1"/>
+            <enum name="relative_to_parent_size" value="2"/>
+        </attr>
+        <attr name="behavior_valueTypeOnCollapsed" format="enum">
+            <enum name="absolute" value="0"/>
+            <enum name="relative_to_self_size" value="1"/>
+            <enum name="relative_to_parent_size" value="2"/>
+        </attr>
+        <attr name="behavior_valueTypeOnHidden" format="enum">
+            <enum name="absolute" value="0"/>
+            <enum name="relative_to_self_size" value="1"/>
+            <enum name="relative_to_parent_size" value="2"/>
+        </attr>
+        <attr name="behavior_coordinateTypeOnExpanded" format="enum">
+            <enum name="absolute" value="0"/>
+            <enum name="relative_to_self_position" value="1"/>
+        </attr>
+        <attr name="behavior_coordinateTypeOnCollapsed" format="enum">
+            <enum name="absolute" value="0"/>
+            <enum name="relative_to_self_position" value="1"/>
+        </attr>
+        <attr name="behavior_coordinateTypeOnHidden" format="enum">
+            <enum name="absolute" value="0"/>
+            <enum name="relative_to_self_position" value="1"/>
         </attr>
     </declare-styleable>
 

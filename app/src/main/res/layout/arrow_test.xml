@@ -26,9 +26,9 @@
               android:gravity="center_vertical"
               android:background="#ff00ff"
               app:layout_behavior="@string/linkage_alpha_behavior"
-              app:behavior_valueOnDependencyCollapsed="1.0"
-              app:behavior_valueOnDependencyExpanded="0.0"
-              app:behavior_valueOnDependencyHidden="0.5"/>
+              app:behavior_valueOnCollapsed="1.0"
+              app:behavior_valueOnExpanded="0.0"
+              app:behavior_valueOnHidden="0.5"/>
 
     <com.hayashibambi.kryptos.UpDownArrow
             android:layout_width="56dp"
@@ -40,9 +40,9 @@
     app:upa_richDrawing="false"
     app:upa_mode="cross"
     app:layout_behavior="@string/linkage_property_behavior"
-            app:behavior_valueOnDependencyCollapsed="1.0"
-            app:behavior_valueOnDependencyExpanded="0.3"
-            app:behavior_valueOnDependencyHidden="0.5"
+            app:behavior_valueOnCollapsed="1.0"
+            app:behavior_valueOnExpanded="0.3"
+            app:behavior_valueOnHidden="0.5"
     app:behavior_valueInterpolator="linear"/>
 
     <TextView android:layout_width="match_parent"
@@ -50,6 +50,7 @@
               android:text="menu 1"
               android:textSize="18sp"
               android:layout_marginStart="88dp"
+              android:layout_marginEnd="88dp"
               android:paddingStart="24dp"
               android:textColor="#ffffff"
               android:paddingEnd="0dp"
@@ -57,9 +58,22 @@
               android:gravity="center_vertical"
               android:background="#ff0000"
               android:layout_marginTop="88dp"
-              app:layout_behavior="@string/linkage_rotation_behavior"
-              app:behavior_valueOnDependencyCollapsed="0.0"
-              app:behavior_valueOnDependencyExpanded="540.0"
-              app:behavior_valueOnDependencyHidden="-180.0"/>
+              app:layout_behavior="@string/linkage_horizontal_translation_behavior"
+              app:behavior_valueOnExpanded="0.0"
+              app:behavior_valueOnCollapsed="0.0"
+              app:behavior_valueOnHidden="1.0"
+              app:behavior_valueTypeOnExpanded="absolute"
+              app:behavior_valueTypeOnCollapsed="absolute"
+              app:behavior_valueTypeOnHidden="relative_to_parent_size"
+              app:behavior_coordinateTypeOnExpanded="absolute"
+              app:behavior_coordinateTypeOnCollapsed="relative_to_self_position"
+              app:behavior_coordinateTypeOnHidden="absolute"
+              app:behavior_pivot="0.5"
+    />
+
+    <ImageView android:layout_width="56dp" android:layout_height="56dp"
+    android:src="@mipmap/ic_launcher_round"
+    android:layout_gravity="center"
+    android:id="@+id/icon"/>
 
 </com.hayashibambi.kryptos.bottomsheetfamilylayout.BottomSheetFamilyLayout>

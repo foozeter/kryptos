@@ -8,7 +8,7 @@ class LinkagePropertyBehavior<V: View>(
     context: Context, attrs: AttributeSet)
     : LinkageValueBehavior<V>(context, attrs) {
 
-    override fun onSupplyInterpolatedValue(target: View, value: Float) {
+    override fun onApplyValue(target: View, value: Float) {
         if (target is ValueConsumer) target.supplyInterpolatedValue(value)
     }
 

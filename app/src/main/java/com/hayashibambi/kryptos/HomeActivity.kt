@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.arrow_test.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -14,6 +15,13 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_home)
         setContentView(R.layout.arrow_test)
+
+        val icon = icon
+        icon.post {
+            icon.pivotX = 0.5f
+//            icon.translationX = -540f
+            icon.x = 0f
+        }
     }
 
     private fun buildSheetBehavior() {
