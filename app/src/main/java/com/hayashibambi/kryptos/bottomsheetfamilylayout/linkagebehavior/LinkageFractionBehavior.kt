@@ -26,7 +26,7 @@ open class LinkageFractionBehavior<V: View>(
         private const val INTERPOLATOR_ANTICIPATE = 6
         private const val INTERPOLATOR_ANTICIPATE_OVER_SHOOT = 7
 
-        private const val DEFAULT_INTERPOLATOR = INTERPOLATOR_ACCELERATE_DECELERATE
+        private const val DEFAULT_INTERPOLATOR = INTERPOLATOR_LINEAR
     }
 
     private var target: View? = null
