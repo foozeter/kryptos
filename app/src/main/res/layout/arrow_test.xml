@@ -34,7 +34,8 @@
     app:layout_behavior="@string/linkage_fraction_behavior"
             app:behavior_fractionOnDependencyCollapsed="100%"
             app:behavior_fractionOnDependencyExpanded="30%"
-            app:behavior_fractionOnDependencyHidden="50%"/>
+            app:behavior_fractionOnDependencyHidden="50%"
+    app:behavior_fractionInterpolator="linear"/>
 
     <TextView android:layout_width="match_parent"
               android:layout_height="56dp"
