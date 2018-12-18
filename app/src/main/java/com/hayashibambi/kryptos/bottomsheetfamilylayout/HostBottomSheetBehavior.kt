@@ -3,9 +3,11 @@ package com.hayashibambi.kryptos.bottomsheetfamilylayout
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import com.hayashibambi.kryptos.EnhancedBottomSheetBehavior
 
-class HostBottomSheetBehavior<V: View>(context: Context, attrs: AttributeSet?)
-    : com.google.android.material.bottomsheet.BottomSheetBehavior<V>(context, attrs) {
+class HostBottomSheetBehavior<V: View>(
+    context: Context, attrs: AttributeSet?)
+    : EnhancedBottomSheetBehavior<V>(context, attrs) {
 
     private val linkageBehaviors = mutableListOf<LinkageBehavior<*>>()
     private var userCallback: BottomSheetCallback? = null
