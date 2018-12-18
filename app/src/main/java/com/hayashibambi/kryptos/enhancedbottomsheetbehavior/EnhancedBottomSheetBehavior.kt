@@ -318,17 +318,33 @@ open class EnhancedBottomSheetBehavior<V: View>(
             bottomSheet: View,
             dependency: View) = dependency.id == dependencyId
 
+        override fun onLayoutFinish(
+            parent: CoordinatorLayout,
+            behavior: BottomSheetBehavior<*>,
+            bottomSheet: View) {
+
+            if (dependencyId != View.NO_ID) {
+                val dependency = parent.findViewById<View>(dependencyId)
+                invalidatePeekHeight(parent, dependency, behavior)
+            }
+        }
+
         override fun onDependencyViewChanged(
             parent: CoordinatorLayout,
             bottomSheet: View,
             dependency: View,
-            behavior: BottomSheetBehavior<*>) =
-            if (dependency.id == dependencyId) {
-                val peek = parent.height - dependency.bottom
-                if (peek != behavior.peekHeight) {
-                    behavior.peekHeight = peek
-                    true
-                } else false
+            behavior: BottomSheetBehavior<*>)
+                = invalidatePeekHeight(parent, dependency, behavior)
+
+        private fun invalidatePeekHeight(
+            parent: CoordinatorLayout,
+            dependency: View,
+            behavior: BottomSheetBehavior<*>): Boolean {
+            val peek = parent.height - dependency.bottom
+            return if (peek != behavior.peekHeight) {
+                behavior.peekHeight = peek
+                true
             } else false
+        }
     }
 }

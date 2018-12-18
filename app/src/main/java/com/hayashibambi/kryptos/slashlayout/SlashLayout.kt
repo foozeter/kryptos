@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos
+package com.hayashibambi.kryptos.slashlayout
 
 import android.content.Context
 import android.graphics.*
@@ -10,6 +10,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 import androidx.annotation.Px
 import androidx.core.math.MathUtils
+import com.hayashibambi.kryptos.R
 
 open class SlashLayout(
     context: Context,
@@ -106,19 +107,25 @@ open class SlashLayout(
             dpToPx(DEFAULT_SHADOW_SIZE))
 
         shadowDepth = MathUtils.clamp(
-            a.getFloat(R.styleable.SlashLayout_slash_shadowDepth, DEFAULT_SHADOW_DEPTH), 0f, 1f)
+            a.getFloat(
+                R.styleable.SlashLayout_slash_shadowDepth,
+                DEFAULT_SHADOW_DEPTH
+            ), 0f, 1f)
 
         backgroundColor = a.getColor(
             R.styleable.SlashLayout_slash_backgroundColor,
-            DEFAULT_BACKGROUND_COLOR)
+            DEFAULT_BACKGROUND_COLOR
+        )
 
         eatTouchEvent = a.getBoolean(
             R.styleable.SlashLayout_slash_eatTouchEvent,
-            DEFAULT_EAT_TOUCH_EVENT)
+            DEFAULT_EAT_TOUCH_EVENT
+        )
 
         autoTopPadding = a.getBoolean(
             R.styleable.SlashLayout_slash_autoTopPadding,
-            DEFAULT_AUTO_TOP_PADDING)
+            DEFAULT_AUTO_TOP_PADDING
+        )
 
         a.recycle()
         initialize()
@@ -133,7 +140,11 @@ open class SlashLayout(
         super.onAttachedToWindow()
         val parent = parent
         if (parent is SpecialCoordinatorLayout && this.id != 0) {
-            parent.addTouchDetectionDelegate(TouchDetectionDelegate(this.id))
+            parent.addTouchDetectionDelegate(
+                TouchDetectionDelegate(
+                    this.id
+                )
+            )
         }
     }
 

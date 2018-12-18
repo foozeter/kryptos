@@ -9,7 +9,7 @@
     </style>
 
     <style name="AppTheme.MenuItem">
-        <item name="android:background">@drawable/menu_item_background</item>
+        <item name="android:background">@drawable/home_menu_item_background</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:drawableTint">#ffffff</item>

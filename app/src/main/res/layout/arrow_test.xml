@@ -30,7 +30,7 @@
               app:behavior_valueOnExpanded="0.0"
               app:behavior_valueOnHidden="0.5"/>
 
-    <com.hayashibambi.kryptos.UpDownArrow
+    <com.hayashibambi.kryptos.updownarrow.UpDownArrow
             android:layout_width="56dp"
             android:layout_height="56dp"
     android:layout_gravity="end"

@@ -19,8 +19,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\hayashibambi\Pictures\google material icons\drawable-xxxhdpi\round_keyboard_arrow_up_black_24.png" />
-                                      <entry key="outputName" value="ic_arrow_up" />
+                                      <entry key="imageAsset" value="C:\Users\hayashibambi\Pictures\google material icons\drawable-xxxhdpi\round_donut_large_black_18.png" />
+                                      <entry key="outputName" value="ic_donuts_large_18" />
                                     </map>
                                   </option>
                                 </PersistentState>

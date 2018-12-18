@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos
+package com.hayashibambi.kryptos.updownarrow
 
 import android.content.Context
 import android.graphics.*
@@ -30,7 +30,8 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
             }
         }
 
-    private val fraction = Fraction()
+    private val fraction =
+        Fraction()
     private val paint = Paint()
     private val drawArea = Rect()
 
@@ -38,7 +39,8 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
      * If this is TRUE, the arrow shape will be drawn
      * using the bezier curve (ONLY available in Flip-Mode for now).
      */
-    var richDrawing = DEFAULT_RICH_DRAWING
+    var richDrawing =
+        DEFAULT_RICH_DRAWING
         set(value) {
             if (field != value) {
                 field = value
@@ -47,7 +49,8 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
         }
 
     @FloatRange(from = 0.0, to = 1.0)
-    var arrowCurvature = DEFAULT_ARROW_CURVATURE
+    var arrowCurvature =
+        DEFAULT_ARROW_CURVATURE
         set(value) {
             val v = MathUtils.clamp(value, 0f, 1f)
             if (field != v) {
@@ -56,7 +59,8 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
             }
         }
 
-    var progress = DEFAULT_PROGRESS
+    var progress =
+        DEFAULT_PROGRESS
         set(value) {
             val clamped = MathUtils.clamp(value, 0f, 1f)
             if (field != clamped) {
@@ -83,7 +87,8 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
             }
         }
 
-    var isUpToDown = DEFAULT_IS_UP_TO_DOWN
+    var isUpToDown =
+        DEFAULT_IS_UP_TO_DOWN
         set(value) {
             if (field != value) {
                 field = value
@@ -138,11 +143,15 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
         }
 
     init {
-        breakStart = DEFAULT_FRACTION_BREAK_START
-        breakEnd = DEFAULT_FRACTION_BREAK_END
-        arrowColor = DEFAULT_ARROW_COLOR
+        breakStart =
+                DEFAULT_FRACTION_BREAK_START
+        breakEnd =
+                DEFAULT_FRACTION_BREAK_END
+        arrowColor =
+                DEFAULT_ARROW_COLOR
         arrowThickness = dpToPx(DEFAULT_ARROW_THICKNESS, context).toFloat()
-        skipBreakTime = DEFAULT_SKIP_BREAK_TIME
+        skipBreakTime =
+                DEFAULT_SKIP_BREAK_TIME
         paint.style = Paint.Style.STROKE
         paint.strokeCap = Paint.Cap.ROUND
         paint.strokeJoin = Paint.Join.ROUND
@@ -216,25 +225,36 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
 
         @FloatRange(
             from = MIN_BREAK_POSITION,
-            to = MAX_BREAK_POSITION)
-        var breakStart = DEFAULT_FRACTION_BREAK_START
+            to = MAX_BREAK_POSITION
+        )
+        var breakStart =
+            DEFAULT_FRACTION_BREAK_START
             set(value) {
                 field = Math.min(
-                    MathUtils.clamp(value, MIN_BREAK_POSITION, MAX_BREAK_POSITION),
+                    MathUtils.clamp(value,
+                        MIN_BREAK_POSITION,
+                        MAX_BREAK_POSITION
+                    ),
                     breakEnd)
             }
 
         @FloatRange(
             from = MIN_BREAK_POSITION
-            , to = MAX_BREAK_POSITION)
-        var breakEnd = DEFAULT_FRACTION_BREAK_END
+            , to = MAX_BREAK_POSITION
+        )
+        var breakEnd =
+            DEFAULT_FRACTION_BREAK_END
             set(value) {
                 field = Math.max(
                     breakStart,
-                    MathUtils.clamp(value, MIN_BREAK_POSITION, MAX_BREAK_POSITION))
+                    MathUtils.clamp(value,
+                        MIN_BREAK_POSITION,
+                        MAX_BREAK_POSITION
+                    ))
             }
 
-        var skipBreakTime = DEFAULT_SKIP_BREAK_TIME
+        var skipBreakTime =
+            DEFAULT_SKIP_BREAK_TIME
 
         /**
          * t: 0.0        -> breakStart / return: 1.0 -> 0.0
@@ -255,7 +275,8 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
         fun draw(canvas: Canvas, paint: Paint, fraction: Float)
     }
 
-    private inner class Flip: Mode {
+    private inner class Flip:
+        Mode {
 
         private val path = Path()
         private val left = PointF()
@@ -303,7 +324,8 @@ internal class UpDownArrowDrawable(context: Context): Drawable() {
     /**
      * This class does not support rich drawing.
      */
-    private inner class Cross: Mode {
+    private inner class Cross:
+        Mode {
 
         private val path = Path()
         private val leftBelow = PointF()

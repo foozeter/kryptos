@@ -140,7 +140,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
-    <string name="enhanced_bottom_sheet_behavior">com.hayashibambi.kryptos.EnhancedBottomSheetBehavior</string>
+    <string name="enhanced_bottom_sheet_behavior">com.hayashibambi.kryptos.enhancedbottomsheetbehavior.EnhancedBottomSheetBehavior</string>
 
     <string name="host_bottom_sheet_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.HostBottomSheetBehavior</string>
     <string name="linkage_property_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkagePropertyBehavior</string>

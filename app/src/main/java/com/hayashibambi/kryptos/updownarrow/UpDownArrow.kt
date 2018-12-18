@@ -1,10 +1,11 @@
-package com.hayashibambi.kryptos
+package com.hayashibambi.kryptos.updownarrow
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
+import com.hayashibambi.kryptos.R
 import com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkagePropertyBehavior
 
 class UpDownArrow(context: Context, attrs: AttributeSet)
@@ -83,7 +84,8 @@ class UpDownArrow(context: Context, attrs: AttributeSet)
 
         val mode = a.getInt(
             R.styleable.UpDownArrow_upa_mode,
-            ATTR_MODE_FLIP)
+            ATTR_MODE_FLIP
+        )
 
         a.recycle()
 
