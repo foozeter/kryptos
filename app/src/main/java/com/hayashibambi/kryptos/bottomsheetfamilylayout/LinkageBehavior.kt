@@ -2,14 +2,12 @@ package com.hayashibambi.kryptos.bottomsheetfamilylayout
 
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-
 abstract class LinkageBehavior<V: View>: CoordinatorLayout.Behavior<V>() {
 
     /**
      * Only HostBottomSheet is allowed to modify this property.
      */
-    var host: BottomSheetBehavior<*>? = null
+    var host: HostBottomSheetBehavior<*>? = null
         internal set
 
     /**
@@ -17,6 +15,8 @@ abstract class LinkageBehavior<V: View>: CoordinatorLayout.Behavior<V>() {
      */
     var hostViewId: Int = View.NO_ID
         internal set
+
+    protected val hostView: View?; get() = host?.view
 
     protected var layoutDependsOnHostBottomSheet = false
 

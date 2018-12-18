@@ -27,13 +27,14 @@ abstract class LinkageValueBehavior<V: View>(
         private const val DEFAULT_INTERPOLATOR = INTERPOLATOR_LINEAR
     }
 
-    protected val valueOnExpanded: Float
-    protected val valueOnCollapsed: Float
-    protected val valueOnHidden: Float
+    var valueOnExpanded: Float
+    var valueOnCollapsed: Float
+    var valueOnHidden: Float
+
+    var interpolator: Interpolator
 
     protected var target: View? = null; private set
 
-    private val interpolator: Interpolator
 
     init {
         val a = context.obtainStyledAttributes(

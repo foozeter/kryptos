@@ -3,12 +3,14 @@ package com.hayashibambi.kryptos.bottomsheetfamilylayout
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 
 class HostBottomSheetBehavior<V: View>(context: Context, attrs: AttributeSet?)
     : com.google.android.material.bottomsheet.BottomSheetBehavior<V>(context, attrs) {
 
     private val linkageBehaviors = mutableListOf<LinkageBehavior<*>>()
     private var userCallback: BottomSheetCallback? = null
+    internal var view: View? = null; private set
 
     /**
      * Only ButtonSheetFamilyLayout is allowed to modify this property.
@@ -18,6 +20,16 @@ class HostBottomSheetBehavior<V: View>(context: Context, attrs: AttributeSet?)
 
     init {
         super.setBottomSheetCallback(InternalCallback())
+    }
+
+    override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
+        view = child
+        return super.onLayoutChild(parent, child, layoutDirection)
+    }
+
+    override fun onDetachedFromLayoutParams() {
+        super.onDetachedFromLayoutParams()
+        view = null
     }
 
     fun addLinkageBehavior(behavior: LinkageBehavior<*>) {

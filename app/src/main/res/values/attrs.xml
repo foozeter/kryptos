@@ -52,11 +52,6 @@
         <attr name="layout_hostBottomSheet" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="LinkageWhackAMoleBehavior">
-        <attr name="behavior_detectionRange" format="dimension"/>
-        <attr name="behavior_revealFromLeftSide" format="boolean"/>
-    </declare-styleable>
-
     <declare-styleable name="LinkageValueBehavior">
         <attr name="behavior_valueOnExpanded" format="float"/>
         <attr name="behavior_valueOnCollapsed" format="float"/>
@@ -101,6 +96,10 @@
             <enum name="absolute" value="0"/>
             <enum name="relative_to_self_position" value="1"/>
         </attr>
+    </declare-styleable>
+    
+    <declare-styleable name="LinkageSlideInOutBehavior">
+        <attr name="behavior_slideInOutFromLeftSide" format="boolean"/>
     </declare-styleable>
 
 </resources>

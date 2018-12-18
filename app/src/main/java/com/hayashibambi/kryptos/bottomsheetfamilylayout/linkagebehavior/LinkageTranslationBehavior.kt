@@ -37,14 +37,14 @@ abstract class LinkageTranslationBehavior<V: View>(
         }
     }
 
-    private val pivot: Float
+    var pivot: Float
 
-    private val coordinateTypeOnExpanded: CoordinateType
-    private val coordinateTypeOnCollapsed: CoordinateType
-    private val coordinateTypeOnHidden: CoordinateType
-    private val valueTypeOnExpanded: ValueType
-    private val valueTypeOnCollapsed: ValueType
-    private val valueTypeOnHidden: ValueType
+    var coordinateTypeOnExpanded: CoordinateType
+    var coordinateTypeOnCollapsed: CoordinateType
+    var coordinateTypeOnHidden: CoordinateType
+    var valueTypeOnExpanded: ValueType
+    var valueTypeOnCollapsed: ValueType
+    var valueTypeOnHidden: ValueType
 
     private var parent: CoordinatorLayout? = null
 
