@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos
+package com.hayashibambi.kryptos.enhancedbottomsheetbehavior
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,6 +7,7 @@ import androidx.annotation.IdRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.hayashibambi.kryptos.R
 
 open class EnhancedBottomSheetBehavior<V: View>(
     context: Context,
@@ -23,17 +24,23 @@ open class EnhancedBottomSheetBehavior<V: View>(
         private const val KEY_PLUGIN_PEEK_BELOW_OF = 6
     }
 
-    private val callbackDispatcher = BottomSheetCallbackDispatcher()
+    private val callbackDispatcher =
+        BottomSheetCallbackDispatcher()
     
-    private val pluginManager = PluginManager()
+    private val pluginManager =
+        PluginManager()
 
     init {
 
         // plugins
-        val defaultState = DefaultState()
-        val overDragging = OverDragging()
-        val fadeOnSliding = FadeOnSliding()
-        val layoutBelowOf = LayoutBelowOf()
+        val defaultState =
+            DefaultState()
+        val overDragging =
+            OverDragging()
+        val fadeOnSliding =
+            FadeOnSliding()
+        val layoutBelowOf =
+            LayoutBelowOf()
         val peekBelowOf = PeekBelowOf()
 
         var enableDefaultState = false

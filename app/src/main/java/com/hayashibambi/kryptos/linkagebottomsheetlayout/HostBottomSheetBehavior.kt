@@ -3,7 +3,7 @@ package com.hayashibambi.kryptos.linkagebottomsheetlayout
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.hayashibambi.kryptos.EnhancedBottomSheetBehavior
+import com.hayashibambi.kryptos.enhancedbottomsheetbehavior.EnhancedBottomSheetBehavior
 
 class HostBottomSheetBehavior<V: View>(
     context: Context, attrs: AttributeSet?)
