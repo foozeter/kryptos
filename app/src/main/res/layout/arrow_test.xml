@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hayashibambi.kryptos.bottomsheetfamilylayout.BottomSheetFamilyLayout
+<com.hayashibambi.kryptos.linkagebottomsheetlayout.LinkageBottomSheetLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:id="@+id/root_layout"
@@ -99,4 +99,4 @@
     android:layout_gravity="center"
     android:id="@+id/icon"/>
 
-</com.hayashibambi.kryptos.bottomsheetfamilylayout.BottomSheetFamilyLayout>
+</com.hayashibambi.kryptos.linkagebottomsheetlayout.LinkageBottomSheetLayout>

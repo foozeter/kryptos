@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior
+package com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior
 
 import android.content.Context
 import android.util.AttributeSet
@@ -9,7 +9,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hayashibambi.kryptos.R
-import com.hayashibambi.kryptos.bottomsheetfamilylayout.LinkageBehavior
+import com.hayashibambi.kryptos.linkagebottomsheetlayout.LinkageBehavior
 
 abstract class LinkageValueBehavior<V: View>(
     context: Context, attrs: AttributeSet): LinkageBehavior<V>() {

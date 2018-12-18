@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.bottomsheetfamilylayout
+package com.hayashibambi.kryptos.linkagebottomsheetlayout
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,7 @@ import androidx.annotation.IdRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.hayashibambi.kryptos.R
 
-class BottomSheetFamilyLayout(
+class LinkageBottomSheetLayout(
     context: Context,
     attrs: AttributeSet?,
     defStyleAttr: Int)
@@ -27,10 +27,10 @@ class BottomSheetFamilyLayout(
 
     init {
         val a = context.obtainStyledAttributes(
-            attrs, R.styleable.BottomSheetFamilyLayout, 0, 0)
+            attrs, R.styleable.LinkageBottomSheetLayout, 0, 0)
 
         hostId = a.getResourceId(
-            R.styleable.BottomSheetFamilyLayout_layout_hostBottomSheet,
+            R.styleable.LinkageBottomSheetLayout_layout_hostBottomSheet,
             View.NO_ID)
 
         a.recycle()

@@ -142,11 +142,11 @@
 
     <string name="enhanced_bottom_sheet_behavior">com.hayashibambi.kryptos.EnhancedBottomSheetBehavior</string>
 
-    <string name="host_bottom_sheet_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.HostBottomSheetBehavior</string>
-    <string name="linkage_property_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkagePropertyBehavior</string>
-    <string name="linkage_alpha_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageAlphaBehavior</string>
-    <string name="linkage_rotation_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageRotationBehavior</string>
-    <string name="linkage_horizontal_translation_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageHorizontalTranslationBehavior</string>
-    <string name="linkage_slide_in_out_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageSlideInOutBehavior</string>
+    <string name="host_bottom_sheet_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.HostBottomSheetBehavior</string>
+    <string name="linkage_property_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkagePropertyBehavior</string>
+    <string name="linkage_alpha_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageAlphaBehavior</string>
+    <string name="linkage_rotation_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageRotationBehavior</string>
+    <string name="linkage_horizontal_translation_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageHorizontalTranslationBehavior</string>
+    <string name="linkage_slide_in_out_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageSlideInOutBehavior</string>
 
 </resources>

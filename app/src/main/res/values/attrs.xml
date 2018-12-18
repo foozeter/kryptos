@@ -46,7 +46,7 @@
         <attr name="behavior_enablePeekBelowOf" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="BottomSheetFamilyLayout">
+    <declare-styleable name="LinkageBottomSheetLayout">
         <attr name="layout_hostBottomSheet" format="reference"/>
     </declare-styleable>
 

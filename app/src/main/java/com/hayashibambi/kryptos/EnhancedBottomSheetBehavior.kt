@@ -8,9 +8,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
-class EnhancedBottomSheetBehavior<V: View>(
+open class EnhancedBottomSheetBehavior<V: View>(
     context: Context,
-    attributeSet: AttributeSet)
+    attributeSet: AttributeSet?)
     : BottomSheetBehavior<V>(context, attributeSet) {
 
     companion object {

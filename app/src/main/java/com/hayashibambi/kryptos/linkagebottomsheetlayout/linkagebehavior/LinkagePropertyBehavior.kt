@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior
+package com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior
 
 import android.content.Context
 import android.util.AttributeSet

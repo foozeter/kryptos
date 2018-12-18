@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.bottomsheetfamilylayout
+package com.hayashibambi.kryptos.linkagebottomsheetlayout
 
 import android.content.Context
 import android.util.AttributeSet
@@ -28,14 +28,14 @@ class HostBottomSheetBehavior<V: View>(
         behavior.host = null
     }
 
-    internal fun onAttachedToParent(parent: BottomSheetFamilyLayout) {
+    internal fun onAttachedToParent(parent: LinkageBottomSheetLayout) {
         val viewId = parent.hostId
         if (viewId != 0) {
             view = parent.findViewById(viewId)
         }
     }
 
-    internal fun onDetachFromParent(parent: BottomSheetFamilyLayout) {
+    internal fun onDetachFromParent(parent: LinkageBottomSheetLayout) {
         view = null
     }
 
