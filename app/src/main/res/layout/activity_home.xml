@@ -22,12 +22,9 @@
             android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  android:background="@color/colorAccent"
-                 app:layout_behavior="@string/advanced_bttom_sheet_behavior"
-                 app:absb_belowOfOnExpanded="@+id/title_bar"
-            app:absb_fadeOutSheetOnDragging="true"
-            app:absb_defaultState="collapsed"
-            app:absb_enableOverDragging="true"
-    app:behavior_peekHeight="112dp"/>
+                 app:layout_behavior="@string/enhanced_bottom_sheet_behavior"
+    app:behavior_layoutBelowOf="@id/title_bar"
+    app:behavior_defaultState="expanded"/>
 
     <TextView android:layout_width="match_parent" android:layout_height="56dp"
     android:text="@string/app_name"
@@ -40,76 +37,14 @@
     android:background="#ff00ff"/>
 
     <TextView android:layout_width="match_parent" android:layout_height="56dp"
-              android:text="collapse"
+              android:text="peek to below of this view"
               android:textSize="18sp"
               android:paddingStart="24dp"
+              android:layout_marginTop="300dp"
               android:textColor="#ffffff"
               android:paddingEnd="0dp"
-              android:visibility="invisible"
-              android:id="@+id/title_bar_2"
+              android:id="@+id/middle_title"
               android:gravity="center_vertical"
-              android:background="#ff00ff"
-    android:layout_gravity="center"/>
-
-    <TextView android:layout_width="match_parent" android:layout_height="56dp"
-              android:text="menu item 1"
-              android:textSize="18sp"
-              android:paddingStart="24dp"
-              android:textColor="#ffffff"
-              android:layout_marginStart="88dp"
-              android:paddingEnd="0dp"
-              android:id="@+id/menu_item1"
-              android:gravity="center_vertical"
-              android:background="#ff0000"
-    android:layout_marginTop="250dp"
-    app:layout_behavior="@string/whack_a_mole_behavior"
-              app:wam_anchorBottomSheet="@+id/bottom_sheet"
-    app:wam_detectionRange="200dp"/>
-
-    <TextView android:layout_width="match_parent" android:layout_height="56dp"
-              android:text="menu item 1"
-              android:textSize="18sp"
-              android:paddingStart="24dp"
-              android:textColor="#ffffff"
-              android:layout_marginStart="88dp"
-              android:paddingEnd="0dp"
-              android:id="@+id/menu_item2"
-              android:gravity="center_vertical"
-              android:background="#ff0000"
-              android:layout_marginTop="180dp"
-              app:layout_behavior="@string/whack_a_mole_behavior"
-              app:wam_anchorBottomSheet="@+id/bottom_sheet"
-              app:wam_detectionRange="256dp"/>
-
-    <TextView android:layout_width="match_parent" android:layout_height="56dp"
-              android:text="menu item 1"
-              android:textSize="18sp"
-              android:paddingStart="24dp"
-              android:textColor="#ffffff"
-              android:layout_marginStart="88dp"
-              android:paddingEnd="0dp"
-              android:id="@+id/menu_item3"
-              android:gravity="center_vertical"
-              android:background="#ff0000"
-              android:layout_marginTop="110dp"
-              app:layout_behavior="@string/whack_a_mole_behavior"
-              app:wam_anchorBottomSheet="@+id/bottom_sheet"
-              app:wam_detectionRange="256dp"/>
-
-    <TextView android:layout_width="match_parent" android:layout_height="56dp"
-              android:text="menu item 1"
-              android:textSize="18sp"
-              android:paddingStart="24dp"
-              android:textColor="#ffffff"
-              android:layout_marginStart="88dp"
-              android:paddingEnd="0dp"
-              android:id="@+id/menu_item4"
-              android:gravity="center_vertical"
-              android:background="#ff0000"
-              android:layout_marginTop="40dp"
-              app:layout_behavior="@string/whack_a_mole_behavior"
-              app:wam_anchorBottomSheet="@+id/bottom_sheet"
-              app:wam_detectionRange="256dp"/>
-
+              android:background="#ff00ff"/>
 
 </com.hayashibambi.kryptos.SpecialCoordinatorLayout>

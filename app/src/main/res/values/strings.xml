@@ -140,12 +140,9 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
-    <string name="advanced_bttom_sheet_behavior">com.hayashibambi.kryptos.AdvancedBottomSheetBehavior</string>
-    <string name="whack_a_mole_behavior">com.hayashibambi.kryptos.WhackAMoleBehavior</string>
-    <string name="host_bottom_sheet_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.HostBottomSheetBehavior</string>
-    <string name="linkage_fade_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageFadeBehavior</string>
-    <string name="linkage_whack_a_hole_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageWhackAMoleBehavior</string>
+    <string name="enhanced_bottom_sheet_behavior">com.hayashibambi.kryptos.EnhancedBottomSheetBehavior</string>
 
+    <string name="host_bottom_sheet_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.HostBottomSheetBehavior</string>
     <string name="linkage_property_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkagePropertyBehavior</string>
     <string name="linkage_alpha_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageAlphaBehavior</string>
     <string name="linkage_rotation_behavior">com.hayashibambi.kryptos.bottomsheetfamilylayout.linkagebehavior.LinkageRotationBehavior</string>

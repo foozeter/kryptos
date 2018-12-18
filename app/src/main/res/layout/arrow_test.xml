@@ -81,7 +81,18 @@
               android:layout_marginTop="150dp"
               app:layout_behavior="@string/linkage_slide_in_out_behavior"
     android:layout_marginStart="88dp"
-    android:layout_marginEnd="88dp"/>
+    android:id="@+id/menu1"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:text="slide in out menu 2"
+              android:textSize="18sp"
+              android:textColor="#ffffff"
+              android:gravity="center"
+              android:background="#00ff00"
+              android:layout_marginStart="88dp"
+              android:layout_marginTop="66dp"
+              app:layout_behavior="@string/linkage_slide_in_out_behavior"/>
 
     <ImageView android:layout_width="56dp" android:layout_height="56dp"
     android:src="@mipmap/ic_launcher_round"

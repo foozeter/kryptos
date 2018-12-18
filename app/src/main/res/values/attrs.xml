@@ -29,23 +29,21 @@
         </attr>
     </declare-styleable>
     
-    <declare-styleable name="WhackAMoleBehavior">
-        <attr name="wam_anchorBottomSheet" format="reference"/>
-        <attr name="wam_detectionRange" format="dimension"/>
-        <attr name="wam_revealFromLeftSide" format="boolean"/>
-    </declare-styleable>
-
-    <declare-styleable name="AdvancedBottomSheetBehavior">
-        <attr name="absb_belowOfOnExpanded" format="reference"/>
-        <attr name="absb_belowOfOnCollapsed" format="reference"/>
-        <attr name="absb_fadeOutSheetOnDragging" format="boolean"/>
-        <attr name="absb_enableOverDragging" format="boolean"/>
-        <attr name="absb_collapsedSheetAlpha" format="fraction"/>
-        <attr name="absb_defaultState" format="enum">
+    <declare-styleable name="EnhancedBottomSheetBehavior">
+        <attr name="behavior_layoutBelowOf" format="reference"/>
+        <attr name="behavior_peekBelowOf" format="reference"/>
+        <attr name="behavior_collapsedSheetAlpha" format="float"/>
+        <attr name="behavior_defaultState" format="enum">
             <enum name="expanded" value="3"/>
             <enum name="collapsed" value="4"/>
             <enum name="hidden" value="5"/>
         </attr>
+        
+        <attr name="behavior_enableDefaultState" format="boolean"/>
+        <attr name="behavior_enableOverDragging" format="boolean"/>
+        <attr name="behavior_enableFadeOnScrolling" format="boolean"/>
+        <attr name="behavior_enableLayoutBelowOf" format="boolean"/>
+        <attr name="behavior_enablePeekBelowOf" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="BottomSheetFamilyLayout">

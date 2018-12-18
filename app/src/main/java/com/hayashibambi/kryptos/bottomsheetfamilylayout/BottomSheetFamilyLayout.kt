@@ -14,7 +14,7 @@ class BottomSheetFamilyLayout(
     : CoordinatorLayout(context, attrs, defStyleAttr) {
 
     @IdRes
-    private val bottomSheetId: Int
+    internal val hostId: Int
 
     private var hostBehavior: HostBottomSheetBehavior<*>? = null
 
@@ -29,7 +29,7 @@ class BottomSheetFamilyLayout(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.BottomSheetFamilyLayout, 0, 0)
 
-        bottomSheetId = a.getResourceId(
+        hostId = a.getResourceId(
             R.styleable.BottomSheetFamilyLayout_layout_hostBottomSheet,
             View.NO_ID)
 
@@ -39,19 +39,19 @@ class BottomSheetFamilyLayout(
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        if (bottomSheetId != View.NO_ID) {
-            val sheet = findViewById<View>(bottomSheetId)
+        if (hostId != View.NO_ID) {
+            val sheet = findViewById<View>(hostId)
             val behavior = (sheet.layoutParams as CoordinatorLayout.LayoutParams).behavior
             if (behavior is HostBottomSheetBehavior) {
                 hostBehavior = behavior
-                hostBehavior!!.viewId = bottomSheetId
+                hostBehavior?.onAttachedToParent(this)
             }
         }
 
         if (hostBehavior != null) {
             for (i in 0 until childCount) {
                 val child = getChildAt(i)
-                if (child.id != bottomSheetId) {
+                if (child.id != hostId) {
                     val behavior = (child.layoutParams as CoordinatorLayout.LayoutParams).behavior
                     if (behavior is LinkageBehavior) {
                         hostBehavior!!.addLinkageBehavior(behavior)
@@ -74,6 +74,9 @@ class BottomSheetFamilyLayout(
         val behavior = (child.layoutParams as CoordinatorLayout.LayoutParams).behavior
         if (behavior is LinkageBehavior) {
             hostBehavior?.removeLinkageBehavior(behavior)
+        } else if (behavior is HostBottomSheetBehavior<*>) {
+            hostBehavior?.onDetachFromParent(this)
+            hostBehavior = null
         }
     }
 }
