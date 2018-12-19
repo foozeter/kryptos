@@ -11,6 +11,6 @@ abstract class LinkageBehavior<V: View>: CoordinatorLayout.Behavior<V>() {
 
     protected val hostView: View?; get() = host?.view
 
-    abstract fun onDependencyBottomSheetSlide(bottomSheet: View, slideOffset: Float)
-    abstract fun onDependencyBottomSheetStateChange(bottomSheet: View, newState: Int)
+    open fun onDependencyBottomSheetSlide(bottomSheet: View, slideOffset: Float) {}
+    open fun onDependencyBottomSheetStateChange(bottomSheet: View, newState: Int) {}
 }

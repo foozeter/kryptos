@@ -147,6 +147,8 @@
     <string name="linkage_alpha_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageAlphaBehavior</string>
     <string name="linkage_rotation_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageRotationBehavior</string>
     <string name="linkage_horizontal_translation_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageHorizontalTranslationBehavior</string>
+    <string name="linkage_vertical_translation_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageVerticalTranslationBehavior</string>
     <string name="linkage_slide_in_out_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageSlideInOutBehavior</string>
+    <string name="linkage_sub_bottom_sheet_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageSubBottomSheetBehavior</string>
 
 </resources>

@@ -100,4 +100,8 @@
         <attr name="behavior_slideInOutFromLeftSide" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="LinkageSubBottomSheetBehavior">
+        <attr name="behavior_slideOffsetThreshold" format="float"/>
+    </declare-styleable>
+
 </resources>
