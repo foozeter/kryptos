@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="48dp"
+android:gravity="center_vertical"
+android:paddingStart="16dp"
+android:paddingEnd="16dp">
+
+    <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pison rock n roll"
+    />
+
+    <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="new animal"
+            android:layout_marginStart="8dp"
+    />
+
+
+    <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="that's a wonder ful"
+            android:layout_marginStart="8dp"
+    />
+
+</LinearLayout>

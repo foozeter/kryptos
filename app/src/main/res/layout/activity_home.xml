@@ -62,10 +62,12 @@
             android:drawableStart="@drawable/ic_donuts_large_18"
             android:drawableTint="#ffffff"
             android:drawablePadding="16dp"
-            android:layout_marginStart="88dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="64dp"
             android:id="@+id/menu_item_my_collections"
             app:layout_behavior="@string/linkage_slide_in_out_behavior"
             app:behavior_valueInterpolator="accelerate_decelerate"
+            app:behavior_slideInOutFromLeftSide="true"
     />
 
     <TextView
@@ -81,10 +83,12 @@
             android:drawableStart="@drawable/ic_explore"
             android:drawableTint="#ffffff"
             android:drawablePadding="16dp"
-            android:layout_marginStart="88dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="64dp"
             android:id="@+id/menu_item_explore"
             app:layout_behavior="@string/linkage_slide_in_out_behavior"
             app:behavior_valueInterpolator="accelerate_decelerate"
+            app:behavior_slideInOutFromLeftSide="true"
     />
 
     <TextView
@@ -100,17 +104,20 @@
             android:drawableStart="@drawable/ic_settings"
             android:drawableTint="#ffffff"
             android:drawablePadding="16dp"
-            android:layout_marginStart="88dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="64dp"
             android:id="@+id/menu_item_settings"
             app:layout_behavior="@string/linkage_slide_in_out_behavior"
             app:behavior_valueInterpolator="accelerate_decelerate"
+            app:behavior_slideInOutFromLeftSide="true"
     />
 
     <Space
             android:layout_width="match_parent"
             android:layout_height="88dp"
             android:id="@+id/spacer"
-            android:layout_marginTop="192dp"/>
+            android:layout_marginTop="192dp"
+    />
 
     <!-- Be careful of behaviors interdependence! -->
 
@@ -118,13 +125,15 @@
             android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorAccent"
             app:layout_behavior="@string/host_bottom_sheet_behavior"
             app:behavior_layoutBelowOf="@id/title"
             app:behavior_peekBelowOf="@id/spacer"
             app:behavior_enableOverDragging="true"
             app:behavior_collapsedSheetAlpha="0.15"
-            app:behavior_defaultState="collapsed"
-    />
+            app:behavior_defaultState="collapsed">
+
+        <include
+            layout="@layout/content_header"/>
+    </FrameLayout>
 
 </com.hayashibambi.kryptos.linkagebottomsheetlayout.LinkageBottomSheetLayout>
