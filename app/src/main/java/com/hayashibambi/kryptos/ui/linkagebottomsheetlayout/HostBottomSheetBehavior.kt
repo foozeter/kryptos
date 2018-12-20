@@ -1,9 +1,10 @@
-package com.hayashibambi.kryptos.linkagebottomsheetlayout
+package com.hayashibambi.kryptos.ui.linkagebottomsheetlayout
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.hayashibambi.kryptos.enhancedbottomsheetbehavior.EnhancedBottomSheetBehavior
+import com.hayashibambi.kryptos.ui.enhancedbottomsheetbehavior.EnhancedBottomSheetBehavior
+import java.lang.ref.WeakReference
 
 class HostBottomSheetBehavior<V: View>(
     context: Context, attrs: AttributeSet?)
@@ -11,8 +12,8 @@ class HostBottomSheetBehavior<V: View>(
 
     private val linkageBehaviors = mutableListOf<LinkageBehavior<*>>()
     private var userCallback: BottomSheetCallback? = null
-
-    internal var view: View? = null; private set
+    private var viewRef: WeakReference<View>? = null
+    val view; get() = viewRef?.get()
 
     init {
         super.setBottomSheetCallback(InternalCallback())
@@ -31,12 +32,8 @@ class HostBottomSheetBehavior<V: View>(
     internal fun onAttachedToParent(parent: LinkageBottomSheetLayout) {
         val viewId = parent.hostId
         if (viewId != 0) {
-            view = parent.findViewById(viewId)
+            viewRef = WeakReference(parent.findViewById(viewId))
         }
-    }
-
-    internal fun onDetachFromParent(parent: LinkageBottomSheetLayout) {
-        view = null
     }
 
     override fun setBottomSheetCallback(callback: BottomSheetCallback?) {

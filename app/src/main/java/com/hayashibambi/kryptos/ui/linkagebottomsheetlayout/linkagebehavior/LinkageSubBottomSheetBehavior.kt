@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior
+package com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior
 
 import android.content.Context
 import android.os.Parcelable
@@ -10,7 +10,7 @@ import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.hayashibambi.kryptos.R
-import com.hayashibambi.kryptos.linkagebottomsheetlayout.LinkageBehavior
+import com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.LinkageBehavior
 
 class LinkageSubBottomSheetBehavior<V: View>(
     context: Context, attrs: AttributeSet)

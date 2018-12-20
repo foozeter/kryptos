@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.slashlayout
+package com.hayashibambi.kryptos.ui.slashlayout
 
 import android.content.Context
 import android.graphics.*
@@ -52,7 +52,7 @@ open class SlashLayout(
     private val shadowStartColor; get() = Color.argb((shadowDepth*255).toInt(), 0, 0, 0)
 
     /**
-     * This is useful when use this view as a bottom sheet.
+     * This is useful when use this viewRef as a bottom sheet.
      */
     private val eatTouchEvent: Boolean
 

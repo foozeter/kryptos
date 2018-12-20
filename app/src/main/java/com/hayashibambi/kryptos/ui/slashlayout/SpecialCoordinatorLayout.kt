@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.slashlayout
+package com.hayashibambi.kryptos.ui.slashlayout
 
 import android.content.Context
 import android.util.AttributeSet

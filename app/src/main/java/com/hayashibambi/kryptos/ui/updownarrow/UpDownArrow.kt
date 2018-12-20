@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import com.hayashibambi.kryptos.R
-import com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkagePropertyBehavior
+import com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior.LinkagePropertyBehavior
 
 class UpDownArrow(context: Context, attrs: AttributeSet)
     : View(context, attrs), LinkagePropertyBehavior.ValueConsumer {

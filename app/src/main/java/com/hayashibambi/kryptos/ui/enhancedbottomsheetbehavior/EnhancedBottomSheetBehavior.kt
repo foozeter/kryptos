@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.enhancedbottomsheetbehavior
+package com.hayashibambi.kryptos.ui.enhancedbottomsheetbehavior
 
 import android.content.Context
 import android.util.AttributeSet

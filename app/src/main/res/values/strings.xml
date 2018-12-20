@@ -140,15 +140,15 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
-    <string name="enhanced_bottom_sheet_behavior">com.hayashibambi.kryptos.enhancedbottomsheetbehavior.EnhancedBottomSheetBehavior</string>
+    <string name="enhanced_bottom_sheet_behavior">com.hayashibambi.kryptos.ui.enhancedbottomsheetbehavior.EnhancedBottomSheetBehavior</string>
 
-    <string name="host_bottom_sheet_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.HostBottomSheetBehavior</string>
-    <string name="linkage_property_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkagePropertyBehavior</string>
-    <string name="linkage_alpha_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageAlphaBehavior</string>
-    <string name="linkage_rotation_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageRotationBehavior</string>
-    <string name="linkage_horizontal_translation_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageHorizontalTranslationBehavior</string>
-    <string name="linkage_vertical_translation_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageVerticalTranslationBehavior</string>
-    <string name="linkage_slide_in_out_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageSlideInOutBehavior</string>
-    <string name="linkage_sub_bottom_sheet_behavior">com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior.LinkageSubBottomSheetBehavior</string>
+    <string name="host_bottom_sheet_behavior">com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.HostBottomSheetBehavior</string>
+    <string name="linkage_property_behavior">com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior.LinkagePropertyBehavior</string>
+    <string name="linkage_alpha_behavior">com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior.LinkageAlphaBehavior</string>
+    <string name="linkage_rotation_behavior">com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior.LinkageRotationBehavior</string>
+    <string name="linkage_horizontal_translation_behavior">com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior.LinkageHorizontalTranslationBehavior</string>
+    <string name="linkage_vertical_translation_behavior">com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior.LinkageVerticalTranslationBehavior</string>
+    <string name="linkage_slide_in_out_behavior">com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior.LinkageSlideInOutBehavior</string>
+    <string name="linkage_sub_bottom_sheet_behavior">com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior.LinkageSubBottomSheetBehavior</string>
 
 </resources>

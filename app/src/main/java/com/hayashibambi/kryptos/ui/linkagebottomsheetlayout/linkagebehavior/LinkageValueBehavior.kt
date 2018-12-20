@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.linkagebottomsheetlayout.linkagebehavior
+package com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.linkagebehavior
 
 import android.content.Context
 import android.util.AttributeSet
@@ -9,7 +9,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hayashibambi.kryptos.R
-import com.hayashibambi.kryptos.linkagebottomsheetlayout.LinkageBehavior
+import com.hayashibambi.kryptos.ui.linkagebottomsheetlayout.LinkageBehavior
+import java.lang.ref.WeakReference
 
 abstract class LinkageValueBehavior<V: View>(
     context: Context, attrs: AttributeSet): LinkageBehavior<V>() {
@@ -33,7 +34,9 @@ abstract class LinkageValueBehavior<V: View>(
 
     var interpolator: Interpolator
 
-    protected var target: View? = null; private set
+    private var targetRef: WeakReference<View>? = null
+
+    protected val target; get() = targetRef?.get()
 
 
     init {
@@ -76,15 +79,10 @@ abstract class LinkageValueBehavior<V: View>(
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
         val ret = super.onLayoutChild(parent, child, layoutDirection)
-        target = child
+        targetRef = WeakReference(child)
         // set the initial value
         applyValueForDependencyStableState(host?.state ?: -1)
         return ret
-    }
-
-    override fun onDetachedFromLayoutParams() {
-        super.onDetachedFromLayoutParams()
-        target = null
     }
 
     private fun applyValueForDependencyStableState(stableState: Int) {

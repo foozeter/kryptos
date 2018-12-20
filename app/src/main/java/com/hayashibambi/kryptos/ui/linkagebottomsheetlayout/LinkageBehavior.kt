@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.linkagebottomsheetlayout
+package com.hayashibambi.kryptos.ui.linkagebottomsheetlayout
 
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout

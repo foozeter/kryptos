@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.linkagebottomsheetlayout
+package com.hayashibambi.kryptos.ui.linkagebottomsheetlayout
 
 import android.content.Context
 import android.util.AttributeSet
@@ -75,7 +75,6 @@ class LinkageBottomSheetLayout(
         if (behavior is LinkageBehavior) {
             hostBehavior?.removeLinkageBehavior(behavior)
         } else if (behavior is HostBottomSheetBehavior<*>) {
-            hostBehavior?.onDetachFromParent(this)
             hostBehavior = null
         }
     }
