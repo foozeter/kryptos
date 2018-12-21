@@ -1,11 +1,13 @@
 package com.hayashibambi.kryptos.console.ciphermachine.substitution
 
+import androidx.annotation.VisibleForTesting
+
 open class SimpleSubstitutionCipher:
     SubstitutionCipherMachine {
 
-    private val table = mutableListOf<Pair<Char, Char>>()
+    private val table = Table()
 
-    override fun encrypt(text: String): String? {
+    final override fun encrypt(text: String): String? {
         val cipherText = StringBuilder()
         text.forEach {
             val encrypted = encrypt(it)
@@ -18,7 +20,7 @@ open class SimpleSubstitutionCipher:
         else cipherText.toString()
     }
 
-    override fun decrypt(text: String): String? {
+    final override fun decrypt(text: String): String? {
         val plainText = StringBuilder()
         text.forEach {
             val decrypted = decrypt(it)
@@ -31,41 +33,33 @@ open class SimpleSubstitutionCipher:
         else plainText.toString()
     }
 
-    override fun isPrefixCode(): Boolean
-            = table.extract { it.second }.areElementsUnique()
+    final override fun isPrefixCode(): Boolean
+            = table.cipherWords.areElementsUnique()
 
-    fun putPair(plain: Char, cipher: Char) {
-        val exists = table.find { it.first == plain || it.second == cipher }
-        if (exists == null) table.add(Pair(plain, cipher))
-    }
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    fun register(plain: Char, cipher: Char)
+            = table.register(plain.toString(), cipher.toString())
 
-    fun removePair(plain: Char, cipher: Char) {
-        val index = table.indexOfFirst { it.first == plain || it.second == cipher }
-        if (index != -1) table.removeAt(index)
-    }
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    fun unregister(plain: Char, cipher: Char)
+            = table.unregister(plain.toString(), cipher.toString())
 
     fun clearTable() = table.clear()
 
-    private fun encrypt(plain: Char)
-            = table.find { it.first == plain }?.second
+    protected open fun encrypt(plain: Char)
+            = table.encrypt(plain.toString())?.get(0)
 
-    private fun decrypt(cipher: Char)
-            = table.find { it.second == cipher }?.first
+    protected open fun decrypt(cipher: Char)
+            = table.decrypt(cipher.toString())?.get(0)
 
-    private fun MutableList<*>.areElementsUnique(): Boolean {
+    private fun Set<String>.areElementsUnique(): Boolean {
         for (i in 0 until size) {
-            val ei = get(i)
+            val ei = elementAt(i)
             for (j in (i + 1) until size) {
-                if (ei == get(j)) return false
+                if (ei == elementAt(j)) return false
             }
         }
 
         return true
-    }
-
-    private fun <T, U> MutableList<T>.extract(extractor: (element: T) -> U): MutableList<U> {
-        val new = mutableListOf<U>()
-        forEach { new.add(extractor(it)) }
-        return new
     }
 }

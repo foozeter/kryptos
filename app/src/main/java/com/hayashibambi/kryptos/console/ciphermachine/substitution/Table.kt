@@ -1,6 +1,6 @@
 package com.hayashibambi.kryptos.console.ciphermachine.substitution
 
-class CryptoTable {
+class Table {
 
     private val p2c = mutableMapOf<String, String>()
     private val c2p = mutableMapOf<String, String>()
@@ -23,7 +23,7 @@ class CryptoTable {
     val cipherWords
         get() = c2p.keys.toSet()
 
-    fun registerWords(plain: String, cipher: String) =
+    fun register(plain: String, cipher: String) =
         if (!p2c.containsKey(plain) &&
             !c2p.containsKey(cipher)) {
             p2c[plain] = cipher
@@ -31,7 +31,7 @@ class CryptoTable {
             true
         } else false
 
-    fun unregisterWords(plain: String, cipher: String) =
+    fun unregister(plain: String, cipher: String) =
         if (p2c.containsKey(plain) &&
             c2p.containsKey(cipher)) {
             p2c.remove(plain)
@@ -39,19 +39,19 @@ class CryptoTable {
             true
         } else false
 
-    fun containsWords(plain: String, cipher: String)
-            = containsPlainWords(plain)
-            && containsCipherWords(cipher)
+    fun contains(plain: String, cipher: String)
+            = containsPlainWord(plain)
+            && containsCipherWord(cipher)
 
-    fun containsPlainWords(plain: String)
+    fun containsPlainWord(plain: String)
             = p2c.containsKey(plain)
 
-    fun containsCipherWords(cipher: String)
+    fun containsCipherWord(cipher: String)
             = c2p.containsKey(cipher)
 
-    fun encryptWord(plain: String) = p2c[plain]
+    fun encrypt(plain: String) = p2c[plain]
     
-    fun decryptWord(cipher: String) = c2p[cipher]
+    fun decrypt(cipher: String) = c2p[cipher]
     
     fun clear() {
         p2c.clear()

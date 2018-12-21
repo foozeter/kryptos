@@ -10,40 +10,6 @@ class CaesarCipher: SimpleSubstitutionCipher() {
         private const val DEFAULT_KEY = 3
     }
 
-    private object Const {
-
-        /**
-         * The following are supported non-shift characters (UTF-16):
-         *
-         * U+0021 - U+002F,
-         * U+003A - U+0040,
-         * U+005B - U+0060,
-         * U+007B - U+007E
-         */
-        val NON_SHIFT_CHARSET =
-            mutableListOf<Char>()
-                .add((' '..'/'))
-                .add((':'..'@'))
-                .add(('['..'`'))
-                .add(('{'..'~'))
-                .toList()
-
-        /**
-         * Only alphabets and digits are supported.
-         */
-        val SHIFT_CHARSET =
-            mutableListOf<Char>()
-                .add(('0'..'9'))
-                .add(('a'..'z'))
-                .add(('A'..'Z'))
-                .toList()
-
-        private fun MutableList<Char>.add(range: CharRange): MutableList<Char> {
-            addAll(range)
-            return this
-        }
-    }
-
     var key = DEFAULT_KEY
         set(value) {
             if (field != value) {
@@ -58,8 +24,9 @@ class CaesarCipher: SimpleSubstitutionCipher() {
 
     private fun invalidate() {
         clearTable()
-        for (a in Const.NON_SHIFT_CHARSET) putPair(a, a)
-        for (a in Const.SHIFT_CHARSET) putPair(a, shift(a, key))
+        for (a in '0'..'9') register(a, shift(a, key))
+        for (a in 'a'..'z') register(a, shift(a, key))
+        for (a in 'A'..'Z') register(a, shift(a, key))
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -93,5 +60,17 @@ class CaesarCipher: SimpleSubstitutionCipher() {
         }
 
         else -> throw IllegalArgumentException("not supported ($char)")
+    }
+
+    /**
+     * Caesar Cipher does not encrypt/decrypt unsupported characters.
+     */
+
+    protected override fun encrypt(plain: Char): Char? {
+        return super.encrypt(plain) ?: plain
+    }
+
+    protected override fun decrypt(cipher: Char): Char? {
+        return super.decrypt(cipher) ?: cipher
     }
 }

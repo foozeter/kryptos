@@ -5,17 +5,17 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 
-class CryptoTableTest {
+class TableTest {
 
-    val table = CryptoTable()
+    val table = Table()
 
     @Before
     fun init() {
         table.apply {
             table.clear()
-            registerWords("dog", "01")
-            registerWords("cat man", "110")
-            registerWords("rabbit", "11010")
+            register("dog", "01")
+            register("cat man", "110")
+            register("rabbit", "11010")
         }
     }
 
@@ -54,25 +54,25 @@ class CryptoTableTest {
     @Test
     fun registerWords() {
         table.clear()
-        var result = table.registerWords("a", "0")
+        var result = table.register("a", "0")
         assertEquals(true, result)
-        assertEquals("0", table.encryptWord("a"))
+        assertEquals("0", table.encrypt("a"))
 
-        result = table.registerWords("a", "1")
+        result = table.register("a", "1")
         assertEquals(false, result)
-        assertEquals("0", table.encryptWord("a"))
+        assertEquals("0", table.encrypt("a"))
     }
 
     @Test
     fun unregisterWords() {
         val beforePlainWords = table.plainWords
         val beforeCipherWords = table.cipherWords
-        var result = table.unregisterWords("ant", "01")
+        var result = table.unregister("ant", "01")
         assertEquals(false, result)
         assertEquals(true, beforePlainWords == table.plainWords)
         assertEquals(true, beforeCipherWords == table.cipherWords)
 
-        result = table.unregisterWords("dog", "01")
+        result = table.unregister("dog", "01")
         assertEquals(true, result)
         assertNotEquals(beforePlainWords, table.plainWords)
         assertNotEquals(beforeCipherWords, table.cipherWords)
@@ -80,32 +80,32 @@ class CryptoTableTest {
 
     @Test
     fun containsWords() {
-        assertEquals(true, table.containsWords("dog", "01"))
-        assertEquals(false, table.containsWords("ant", "010"))
+        assertEquals(true, table.contains("dog", "01"))
+        assertEquals(false, table.contains("ant", "010"))
     }
 
     @Test
     fun containsPlainWords() {
-        assertEquals(true, table.containsPlainWords("dog"))
-        assertEquals(false, table.containsPlainWords("ant"))
+        assertEquals(true, table.containsPlainWord("dog"))
+        assertEquals(false, table.containsPlainWord("ant"))
     }
 
     @Test
     fun containsCipherWords() {
-        assertEquals(true, table.containsCipherWords("01"))
-        assertEquals(false, table.containsCipherWords("0001"))
+        assertEquals(true, table.containsCipherWord("01"))
+        assertEquals(false, table.containsCipherWord("0001"))
     }
 
     @Test
     fun encryptWord() {
-        assertEquals("01", table.encryptWord("dog"))
-        assertEquals(null, table.encryptWord("ant"))
+        assertEquals("01", table.encrypt("dog"))
+        assertEquals(null, table.encrypt("ant"))
     }
 
     @Test
     fun decryptWord() {
-        assertEquals("rabbit", table.decryptWord("11010"))
-        assertEquals(null, table.decryptWord("111"))
+        assertEquals("rabbit", table.decrypt("11010"))
+        assertEquals(null, table.decrypt("111"))
     }
 
     @Test
