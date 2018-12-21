@@ -42,13 +42,13 @@ class TableTest {
     @Test
     fun getPlainWords() {
         val plains = setOf("dog", "cat man", "rabbit")
-        assertEquals(plains, table.plainWords)
+        assertEquals(plains, table.sortedPlainWords)
     }
 
     @Test
     fun getCipherWords() {
         val plains = setOf("01", "110", "11010")
-        assertEquals(plains, table.cipherWords)
+        assertEquals(plains, table.sortedCipherWords)
     }
 
     @Test
@@ -65,17 +65,17 @@ class TableTest {
 
     @Test
     fun unregisterWords() {
-        val beforePlainWords = table.plainWords
-        val beforeCipherWords = table.cipherWords
+        val beforePlainWords = table.sortedPlainWords
+        val beforeCipherWords = table.sortedCipherWords
         var result = table.unregister("ant", "01")
         assertEquals(false, result)
-        assertEquals(true, beforePlainWords == table.plainWords)
-        assertEquals(true, beforeCipherWords == table.cipherWords)
+        assertEquals(true, beforePlainWords == table.sortedPlainWords)
+        assertEquals(true, beforeCipherWords == table.sortedCipherWords)
 
         result = table.unregister("dog", "01")
         assertEquals(true, result)
-        assertNotEquals(beforePlainWords, table.plainWords)
-        assertNotEquals(beforeCipherWords, table.cipherWords)
+        assertNotEquals(beforePlainWords, table.sortedPlainWords)
+        assertNotEquals(beforeCipherWords, table.sortedCipherWords)
     }
 
     @Test
@@ -111,7 +111,28 @@ class TableTest {
     @Test
     fun clear() {
         table.clear()
-        assertEquals(0, table.plainWords.size)
-        assertEquals(0, table.cipherWords.size)
+        assertEquals(0, table.sortedPlainWords.size)
+        assertEquals(0, table.sortedCipherWords.size)
+    }
+
+    @Test
+    fun findUnencryptablePartsIn() {
+        assertEquals(
+            setOf(" and ", " fight with "),
+            table.findUnencryptablePartsIn(
+                "dog and rabbit fight with cat man"))
+
+        assertEquals(
+            setOf("the ", " is running, the ",
+                " is hopping, the "," is swimming"),
+            table.findUnencryptablePartsIn(
+                "the dog is running, "
+                        + "the rabbit is hopping, "
+                        + "the cat man is swimming"))
+
+        assertEquals(
+            emptySet<String>(),
+            table.findUnencryptablePartsIn(
+                "dograbbitcat man"))
     }
 }

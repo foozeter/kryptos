@@ -34,7 +34,7 @@ open class SimpleSubstitutionCipher:
     }
 
     final override fun isPrefixCode(): Boolean
-            = table.cipherWords.areElementsUnique()
+            = table.sortedCipherWords.areElementsUnique()
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     fun register(plain: Char, cipher: Char)

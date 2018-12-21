@@ -6,64 +6,38 @@ open class SubstitutionCipher: SubstitutionCipherMachine {
 
     override fun encrypt(text: String): String? {
         if (text.isEmpty()) return null
-        val minWordLength = table.minPlainWordLength
-        val maxWordLength = table.maxPlainWordLength
-        val cipherText = StringBuilder()
         var cursor = 0
+        val cipherText = StringBuilder()
         while (cursor < text.length) {
-
-            var encrypted: String? = null
-            for (i in maxWordLength downTo  minWordLength) {
-                if (text.length < cursor + i) continue
-                val word = text.substring(cursor, cursor + i)
-                encrypted = table.encrypt(word)
-                if (encrypted != null) {
-                    cursor += word.length
-                    break
-                }
-            }
-
-            if (encrypted != null) {
-                cipherText.append(encrypted)
-            } else {
-                return null
-            }
+            val encryptable = table.findEncryptableWordIn(text, cursor)
+            if (encryptable != null) {
+                cipherText.append(table.encrypt(encryptable))
+                cursor += encryptable.length
+            } else return null
         }
 
-        return if (cipherText.isNotEmpty()) cipherText.toString() else null
+        return if (cipherText.isNotEmpty()) cipherText.toString()
+        else null
     }
 
     override fun decrypt(text: String): String? {
         if (text.isEmpty()) return null
-        val minWordLength = table.minCipherWordLength
-        val maxWordLength = table.maxCipherWordLength
-        val plainText = StringBuilder()
         var cursor = 0
+        val plainText = StringBuilder()
         while (cursor < text.length) {
-
-            var decrypted: String? = null
-            for (i in maxWordLength downTo  minWordLength) {
-                if (text.length < cursor + i) continue
-                val word = text.substring(cursor, cursor + i)
-                decrypted = table.decrypt(word)
-                if (decrypted != null) {
-                    cursor += word.length
-                    break
-                }
-            }
-
-            if (decrypted != null) {
-                plainText.append(decrypted)
-            } else {
-                return null
-            }
+            val decryptable = table.findDecryptableWordIn(text, cursor)
+            if (decryptable != null) {
+                plainText.append(table.decrypt(decryptable))
+                cursor += decryptable.length
+            } else return null
         }
 
-        return if (plainText.isNotEmpty()) plainText.toString() else null
+        return if (plainText.isNotEmpty()) plainText.toString()
+        else null
     }
 
     override fun isPrefixCode(): Boolean {
-        val cipherWords = table.cipherWords.sortedBy { it.length }
+        val cipherWords = table.sortedCipherWords.sortedBy { it.length }
         for (i in 0 until cipherWords.size) {
             val prefix = cipherWords[i]
             for (j in (i + 1) until cipherWords.size) {
