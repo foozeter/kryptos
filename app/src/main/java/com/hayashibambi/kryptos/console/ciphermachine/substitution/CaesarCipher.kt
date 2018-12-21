@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.console.ciphermachine
+package com.hayashibambi.kryptos.console.ciphermachine.substitution
 
 import androidx.annotation.VisibleForTesting
 

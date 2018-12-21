@@ -1,6 +1,7 @@
-package com.hayashibambi.kryptos.console.ciphermachine
+package com.hayashibambi.kryptos.console.ciphermachine.substitution
 
-open class SimpleSubstitutionCipher: SubstitutionCipherMachine {
+open class SimpleSubstitutionCipher:
+    SubstitutionCipherMachine {
 
     private val table = mutableListOf<Pair<Char, Char>>()
 

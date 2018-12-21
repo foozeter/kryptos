@@ -1,4 +1,4 @@
-package com.hayashibambi.kryptos.console.ciphermachine
+package com.hayashibambi.kryptos.console.ciphermachine.substitution
 
 open class SubstitutionCipher: SubstitutionCipherMachine {
 

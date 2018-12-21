@@ -1,7 +1,8 @@
 package com.hayashibambi.kryptos.console.ciphermachine
 
+import com.hayashibambi.kryptos.console.ciphermachine.substitution.SubstitutionCipher
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.Assert.*
 
 class SubstitutionCipherTest {
 

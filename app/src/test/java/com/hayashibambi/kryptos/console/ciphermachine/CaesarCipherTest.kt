@@ -1,5 +1,6 @@
 package com.hayashibambi.kryptos.console.ciphermachine
 
+import com.hayashibambi.kryptos.console.ciphermachine.substitution.CaesarCipher
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
